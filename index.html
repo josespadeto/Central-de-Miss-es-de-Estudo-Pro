@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Missão Estudo Pro • Central de Aprendizado (10 a 14 anos)</title>
+  <title>Missão Estudo Pro • Central de Aprendizado Avançada (10 a 14 anos)</title>
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -44,7 +44,7 @@
     }
 
     .content-box {
-      min-height: 480px;
+      min-height: 520px;
       contain: layout paint style;
     }
 
@@ -56,196 +56,183 @@
 </head>
 <body class="bg-slate-50 text-slate-900 font-sans antialiased selection:bg-emerald-600 selection:text-white">
 
-  <!-- Tela de Login (Exibida por padrão se não autenticado) -->
-  <div id="auth-screen" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl shadow-xl border border-slate-300 max-w-md w-full p-8 text-center space-y-6">
-      <div class="w-16 h-16 bg-emerald-100 text-emerald-700 rounded-2xl flex items-center justify-center text-3xl mx-auto" aria-hidden="true">🔒</div>
+  <!-- Tela Dinâmica de Autenticação / Setup de Senha -->
+  <div id="auth-screen" class="fixed inset-0 bg-slate-900/85 backdrop-blur-md z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl shadow-2xl border border-slate-200 max-w-md w-full p-8 text-center space-y-6">
+      <div id="auth-icon" class="w-16 h-16 bg-emerald-100 text-emerald-700 rounded-2xl flex items-center justify-center text-3xl mx-auto shadow-inner" aria-hidden="true">🎓</div>
       <div>
-        <h2 class="text-2xl font-extrabold text-slate-900">Acesso Restrito</h2>
-        <p class="text-xs text-slate-600 mt-1">Digite a senha de acesso para entrar na Central de Estudos.</p>
+        <h2 id="auth-title" class="text-2xl font-extrabold text-slate-900">Missão Estudo Pro</h2>
+        <p id="auth-subtitle" class="text-xs text-slate-600 mt-1">Carregando sistema de acesso...</p>
       </div>
 
-      <form onsubmit="handleLogin(event)" class="space-y-4 text-left">
+      <form id="auth-form" onsubmit="handleAuthSubmit(event)" class="space-y-4 text-left">
         <div>
-          <label for="access-password" class="block text-xs font-bold text-slate-700 mb-1">Senha de Acesso</label>
+          <label id="auth-label" for="access-password" class="block text-xs font-bold text-slate-700 mb-1">Senha de Acesso</label>
           <input type="password" id="access-password" required placeholder="Digite sua senha..." class="w-full px-4 py-3 text-sm bg-slate-50 border border-slate-300 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-700 transition-all">
         </div>
         <p id="login-error" class="text-xs font-medium text-rose-700 h-4" aria-live="polite"></p>
-        <button type="submit" class="w-full py-3 bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-sm cursor-pointer">
-          Entrar na Missão →
+        <button type="submit" id="auth-btn" class="w-full py-3.5 bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-md active:scale-95 cursor-pointer">
+          Entrar na Central →
         </button>
       </form>
-      <p class="text-[11px] text-slate-600">Dica padrão para testes: <strong>estudo2026</strong></p>
     </div>
   </div>
 
-  <!-- Conteúdo Principal da Aplicação (Oculto até autenticação) -->
+  <!-- Conteúdo Principal da Aplicação -->
   <div id="app-content" class="hidden">
-    <!-- Header / Hero Section -->
     <header class="bg-gradient-to-r from-emerald-700 to-teal-800 text-white shadow-md" role="banner">
-      <div class="max-w-5xl mx-auto px-4 py-8 flex flex-col sm:flex-row justify-between items-center gap-4">
+      <div class="max-w-6xl mx-auto px-4 py-8 flex flex-col sm:flex-row justify-between items-center gap-4">
         <div>
-          <span class="inline-block bg-emerald-600/40 text-emerald-100 text-xs font-semibold px-3 py-1 rounded-full mb-2">🚀 Ensino Fundamental II • 6º ao 9º Ano</span>
+          <span class="inline-block bg-emerald-600/40 text-emerald-100 text-xs font-semibold px-3 py-1 rounded-full mb-2">🚀 BNCC Alinhada • 6º ao 9º Ano</span>
           <h1 class="text-3xl font-extrabold tracking-tight">Central de Missões de Estudo Pro</h1>
-          <p class="text-emerald-100 text-sm mt-1">Teoria rigorosa, prática progressiva e Modo Desafio Cronometrado.</p>
+          <p class="text-emerald-100 text-sm mt-1">Teoria rigorosa, trilhas progressivas e Modo Desafio Cronometrado.</p>
         </div>
         <div class="flex items-center gap-4">
-          <div class="bg-white/10 backdrop-blur-md px-4 py-3 rounded-xl border border-white/20 flex items-center gap-3" aria-label="Pontuação do Aluno">
+          <div class="bg-white/10 backdrop-blur-md px-5 py-3 rounded-2xl border border-white/20 flex items-center gap-3 shadow-sm" aria-label="Pontuação do Aluno">
             <div class="text-2xl" aria-hidden="true">⭐</div>
             <div>
               <p class="text-xs text-emerald-200">Pontuação Total</p>
               <p id="xp-counter" class="text-lg font-bold">120 XP</p>
             </div>
           </div>
-          <button onclick="handleLogout()" class="px-3 py-2 bg-white/10 hover:bg-white/20 border border-white/20 text-white text-xs font-bold rounded-xl transition-all cursor-pointer" title="Sair da Conta">Sair</button>
+          <button onclick="handleLogout()" class="px-4 py-3 bg-white/10 hover:bg-white/20 border border-white/20 text-white text-xs font-bold rounded-2xl transition-all cursor-pointer shadow-sm" title="Sair da Conta">Sair</button>
         </div>
       </div>
     </header>
 
-    <main class="max-w-5xl mx-auto px-4 py-8 space-y-10" role="main">
-
-      <!-- Seção 1: Escolha a Matéria, Nível e Modo de Estudo -->
-      <section class="reveal" aria-labelledby="section-selection-title">
-        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-4">
+    <main class="max-w-6xl mx-auto px-4 py-8 space-y-10" role="main">
+      <section class="reveal bg-white p-6 rounded-3xl shadow-sm border border-slate-200" aria-labelledby="section-selection-title">
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-6 pb-6 border-b border-slate-100">
           <div>
             <h2 id="section-selection-title" class="text-xl font-bold text-slate-900 flex items-center gap-2">
-              <span aria-hidden="true">🎯</span> Escolha a Matéria
+              <span aria-hidden="true">🎯</span> Painel de Controle de Estudos
             </h2>
-            <span class="text-xs text-slate-600">Selecione uma área do conhecimento</span>
+            <span class="text-xs text-slate-500">Escolha o modo, o nível de dificuldade e a matéria desejada</span>
           </div>
 
           <div class="flex flex-wrap items-center gap-3">
-            <div class="flex items-center gap-1 bg-white p-1.5 rounded-xl border border-slate-300 shadow-sm" role="region" aria-label="Modo de Estudo">
-              <button onclick="setMode('study')" id="btn-mode-study" class="px-3 py-1 text-xs font-bold rounded-lg bg-emerald-700 text-white transition-all cursor-pointer">📖 Estudo</button>
-              <button onclick="setMode('challenge')" id="btn-mode-challenge" class="px-3 py-1 text-xs font-bold rounded-lg text-slate-700 hover:bg-slate-100 transition-all cursor-pointer">⚡ Modo Desafio</button>
+            <div class="flex items-center gap-1 bg-slate-100 p-1 rounded-xl border border-slate-200" role="region" aria-label="Modo de Estudo">
+              <button onclick="setMode('study')" id="btn-mode-study" class="px-3.5 py-1.5 text-xs font-bold rounded-lg bg-emerald-700 text-white transition-all cursor-pointer shadow-sm">📖 Estudo</button>
+              <button onclick="setMode('challenge')" id="btn-mode-challenge" class="px-3.5 py-1.5 text-xs font-bold rounded-lg text-slate-700 hover:bg-slate-200 transition-all cursor-pointer">⚡ Desafio</button>
             </div>
 
-            <div class="flex items-center gap-1 bg-white p-1.5 rounded-xl border border-slate-300 shadow-sm" role="region" aria-label="Nível de Dificuldade">
-              <button onclick="setDifficulty('easy')" id="btn-diff-easy" class="px-3 py-1 text-xs font-bold rounded-lg bg-slate-900 text-white transition-all cursor-pointer">Fácil</button>
-              <button onclick="setDifficulty('medium')" id="btn-diff-medium" class="px-3 py-1 text-xs font-bold rounded-lg text-slate-700 hover:bg-slate-100 transition-all cursor-pointer">Médio</button>
-              <button onclick="setDifficulty('hard')" id="btn-diff-hard" class="px-3 py-1 text-xs font-bold rounded-lg text-slate-700 hover:bg-slate-100 transition-all cursor-pointer">Difícil</button>
+            <div class="flex items-center gap-1 bg-slate-100 p-1 rounded-xl border border-slate-200" role="region" aria-label="Nível de Dificuldade">
+              <button onclick="setDifficulty('easy')" id="btn-diff-easy" class="px-3 py-1.5 text-xs font-bold rounded-lg bg-slate-900 text-white transition-all cursor-pointer">Fácil</button>
+              <button onclick="setDifficulty('medium')" id="btn-diff-medium" class="px-3 py-1.5 text-xs font-bold rounded-lg text-slate-700 hover:bg-slate-200 transition-all cursor-pointer">Médio (150 XP)</button>
+              <button onclick="setDifficulty('hard')" id="btn-diff-hard" class="px-3 py-1.5 text-xs font-bold rounded-lg text-slate-700 hover:bg-slate-200 transition-all cursor-pointer">Difícil (300 XP)</button>
             </div>
           </div>
         </div>
 
         <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
-          <button onclick="switchSubject('matematica')" data-subject="matematica" class="subject-card group bg-white p-4 rounded-2xl shadow-sm border-2 border-emerald-600 transition-all duration-200 hover:-translate-y-1 hover:shadow-md text-left cursor-pointer" aria-label="Matemática">
-            <div class="w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center text-xl mb-2 group-hover:scale-110 transition-transform" aria-hidden="true">📐</div>
+          <button onclick="switchSubject('matematica')" data-subject="matematica" class="subject-card group bg-slate-50 p-4 rounded-2xl shadow-sm border-2 border-emerald-600 transition-all duration-200 hover:-translate-y-1 hover:bg-white hover:shadow-md text-left cursor-pointer" aria-label="Matemática">
+            <div class="w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center text-xl mb-2 group-hover:scale-110 transition-transform shadow-inner" aria-hidden="true">📐</div>
             <h3 class="font-bold text-slate-900 text-sm">Matemática</h3>
-            <p class="text-xs text-slate-600 mt-0.5">Frações & Álgebra</p>
+            <p class="text-xs text-slate-500 mt-0.5">Álgebra & Frações</p>
           </button>
 
-          <button onclick="switchSubject('ciencias')" data-subject="ciencias" class="subject-card group bg-white p-4 rounded-2xl shadow-sm border-2 border-transparent hover:border-teal-600 transition-all duration-200 hover:-translate-y-1 hover:shadow-md text-left cursor-pointer" aria-label="Ciências">
-            <div class="w-10 h-10 rounded-xl bg-teal-100 flex items-center justify-center text-xl mb-2 group-hover:scale-110 transition-transform" aria-hidden="true">🔬</div>
+          <button onclick="switchSubject('ciencias')" data-subject="ciencias" class="subject-card group bg-slate-50 p-4 rounded-2xl shadow-sm border-2 border-transparent hover:border-teal-600 transition-all duration-200 hover:-translate-y-1 hover:bg-white hover:shadow-md text-left cursor-pointer" aria-label="Ciências">
+            <div class="w-10 h-10 rounded-xl bg-teal-100 flex items-center justify-center text-xl mb-2 group-hover:scale-110 transition-transform shadow-inner" aria-hidden="true">🔬</div>
             <h3 class="font-bold text-slate-900 text-sm">Ciências</h3>
-            <p class="text-xs text-slate-600 mt-0.5">Estados & Calor</p>
+            <p class="text-xs text-slate-500 mt-0.5">Física & Matéria</p>
           </button>
 
-          <button onclick="switchSubject('historia')" data-subject="historia" class="subject-card group bg-white p-4 rounded-2xl shadow-sm border-2 border-transparent hover:border-amber-600 transition-all duration-200 hover:-translate-y-1 hover:shadow-md text-left cursor-pointer" aria-label="História">
-            <div class="w-10 h-10 rounded-xl bg-amber-100 flex items-center justify-center text-xl mb-2 group-hover:scale-110 transition-transform" aria-hidden="true">📜</div>
+          <button onclick="switchSubject('historia')" data-subject="historia" class="subject-card group bg-slate-50 p-4 rounded-2xl shadow-sm border-2 border-transparent hover:border-amber-600 transition-all duration-200 hover:-translate-y-1 hover:bg-white hover:shadow-md text-left cursor-pointer" aria-label="História">
+            <div class="w-10 h-10 rounded-xl bg-amber-100 flex items-center justify-center text-xl mb-2 group-hover:scale-110 transition-transform shadow-inner" aria-hidden="true">📜</div>
             <h3 class="font-bold text-slate-900 text-sm">História</h3>
-            <p class="text-xs text-slate-600 mt-0.5">Navegações</p>
+            <p class="text-xs text-slate-500 mt-0.5">Mundo & Brasil</p>
           </button>
 
-          <button onclick="switchSubject('geografia')" data-subject="geografia" class="subject-card group bg-white p-4 rounded-2xl shadow-sm border-2 border-transparent hover:border-blue-600 transition-all duration-200 hover:-translate-y-1 hover:shadow-md text-left cursor-pointer" aria-label="Geografia">
-            <div class="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center text-xl mb-2 group-hover:scale-110 transition-transform" aria-hidden="true">🌍</div>
+          <button onclick="switchSubject('geografia')" data-subject="geografia" class="subject-card group bg-slate-50 p-4 rounded-2xl shadow-sm border-2 border-transparent hover:border-blue-600 transition-all duration-200 hover:-translate-y-1 hover:bg-white hover:shadow-md text-left cursor-pointer" aria-label="Geografia">
+            <div class="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center text-xl mb-2 group-hover:scale-110 transition-transform shadow-inner" aria-hidden="true">🌍</div>
             <h3 class="font-bold text-slate-900 text-sm">Geografia</h3>
-            <p class="text-xs text-slate-600 mt-0.5">Cartografia</p>
+            <p class="text-xs text-slate-500 mt-0.5">Espaço & Planeta</p>
           </button>
 
-          <button onclick="switchSubject('portugues')" data-subject="portugues" class="subject-card group bg-white p-4 rounded-2xl shadow-sm border-2 border-transparent hover:border-purple-600 transition-all duration-200 hover:-translate-y-1 hover:shadow-md text-left cursor-pointer" aria-label="Português">
-            <div class="w-10 h-10 rounded-xl bg-purple-100 flex items-center justify-center text-xl mb-2 group-hover:scale-110 transition-transform" aria-hidden="true">📚</div>
+          <button onclick="switchSubject('portugues')" data-subject="portugues" class="subject-card group bg-slate-50 p-4 rounded-2xl shadow-sm border-2 border-transparent hover:border-purple-600 transition-all duration-200 hover:-translate-y-1 hover:bg-white hover:shadow-md text-left cursor-pointer" aria-label="Português">
+            <div class="w-10 h-10 rounded-xl bg-purple-100 flex items-center justify-center text-xl mb-2 group-hover:scale-110 transition-transform shadow-inner" aria-hidden="true">📚</div>
             <h3 class="font-bold text-slate-900 text-sm">Português</h3>
-            <p class="text-xs text-slate-600 mt-0.5">Estilística</p>
+            <p class="text-xs text-slate-500 mt-0.5">Gramática & Texto</p>
           </button>
         </div>
 
-        <div id="lesson-tabs-wrapper" class="mt-4">
+        <div id="lesson-tabs-wrapper" class="mt-6 pt-6 border-t border-slate-100">
+          <p class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3">Lições Disponíveis no Nível:</p>
           <div id="lesson-tabs" class="flex gap-2 overflow-x-auto pb-2" role="tablist" aria-label="Lições disponíveis"></div>
         </div>
       </section>
 
-      <!-- Seção 2: Teoria & Prática / Modo Desafio -->
       <section class="reveal" aria-labelledby="section-lesson-title">
-        <div class="bg-white rounded-2xl shadow-sm border border-slate-300 p-6 sm:p-8 content-box flex flex-col justify-between">
+        <div class="bg-white rounded-3xl shadow-sm border border-slate-200 p-6 sm:p-8 content-box flex flex-col justify-between">
           <div>
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 border-b border-slate-200 mb-6">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 border-b border-slate-100 mb-6">
               <div>
-                <span id="active-badge" class="text-xs font-semibold px-2.5 py-1 bg-emerald-100 text-emerald-800 rounded-md">Matemática • FÁCIL</span>
-                <h2 id="section-lesson-title" class="text-lg font-bold text-slate-900 mt-1">Título da Lição</h2>
+                <span id="active-badge" class="text-xs font-semibold px-3 py-1 bg-emerald-100 text-emerald-800 rounded-full">Matemática • FÁCIL</span>
+                <h2 id="section-lesson-title" class="text-xl font-bold text-slate-900 mt-1">Título da Lição</h2>
               </div>
               <div class="flex items-center gap-3">
-                <span id="timer-badge" class="hidden items-center gap-1.5 px-3 py-1 bg-rose-50 text-rose-700 rounded-lg text-xs font-bold border border-rose-300" aria-label="Tempo restante">
+                <span id="timer-badge" class="hidden items-center gap-1.5 px-3 py-1 bg-rose-50 text-rose-700 rounded-xl text-xs font-bold border border-rose-200 shadow-sm" aria-label="Tempo restante">
                   <span aria-hidden="true">⏳</span> <span id="timer-display">30</span>s
                 </span>
-                <span id="lesson-duration" class="text-xs text-slate-600">Tempo estimado: 10 min</span>
+                <span id="lesson-duration" class="text-xs text-slate-500 bg-slate-100 px-3 py-1 rounded-xl font-medium">Tempo: 10 min</span>
               </div>
             </div>
 
-            <div id="theory-container" class="bg-slate-50 p-4 rounded-xl border border-slate-300 mb-6 text-sm text-slate-800 leading-relaxed"></div>
+            <div id="theory-container" class="bg-slate-50 p-5 rounded-2xl border border-slate-200 mb-6 text-sm text-slate-700 leading-relaxed shadow-inner"></div>
             <div id="exercise-container" class="space-y-4" role="region" aria-label="Questão atual"></div>
-            <p id="feedback-msg" class="text-xs font-medium h-4 mt-3" aria-live="polite"></p>
+            <p id="feedback-msg" class="text-xs font-bold h-4 mt-3" aria-live="polite"></p>
           </div>
 
-          <div class="pt-6 border-t border-slate-200 flex items-center justify-between mt-6">
-            <div class="flex items-center gap-2">
-              <div class="w-32 bg-slate-200 h-2 rounded-full overflow-hidden" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="33">
+          <div class="pt-6 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4 mt-6">
+            <div class="flex items-center gap-3 w-full sm:w-auto">
+              <div class="w-36 bg-slate-100 h-2.5 rounded-full overflow-hidden border border-slate-200" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="33">
                 <div id="progress-bar" class="bg-emerald-600 h-full w-1/3 transition-all duration-300"></div>
               </div>
-              <span id="progress-text" class="text-xs text-slate-700 font-medium">Questão 1 de 3</span>
+              <span id="progress-text" class="text-xs text-slate-600 font-bold">Questão 1 de 3</span>
             </div>
-            <button onclick="nextExercise()" class="px-5 py-2.5 bg-emerald-700 hover:bg-emerald-800 text-white font-semibold text-xs rounded-xl transition-all shadow-sm hover:shadow active:scale-95 cursor-pointer">
+            <button onclick="nextExercise()" class="w-full sm:w-auto px-6 py-3 bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs uppercase tracking-wider rounded-2xl transition-all shadow-md active:scale-95 cursor-pointer">
               Próxima Questão →
             </button>
           </div>
         </div>
       </section>
 
-      <!-- Seção 3: Tabela de Resultados -->
-      <section class="reveal" aria-labelledby="section-results-title">
-        <div class="bg-white rounded-2xl shadow-sm border border-slate-300 p-6 sm:p-8">
-          <div class="flex items-center justify-between mb-4">
-            <h2 id="section-results-title" class="text-lg font-bold text-slate-900 flex items-center gap-2">
-              <span aria-hidden="true">📊</span> Tabela de Desempenho e Resultados
-            </h2>
-            <button onclick="resetResults()" class="text-xs text-slate-600 hover:text-slate-900 underline cursor-pointer">Limpar Histórico Local</button>
-          </div>
-          <p class="text-xs text-slate-600 mb-4">Registro persistido no navegador do aluno.</p>
-          
-          <div class="overflow-x-auto">
-            <table class="w-full text-left border-collapse" aria-label="Histórico de desempenho">
-              <thead>
-                <tr class="border-b border-slate-200 text-xs font-semibold text-slate-700 uppercase">
-                  <th class="py-3 px-4">Modo / Matéria</th>
-                  <th class="py-3 px-4">Nível</th>
-                  <th class="py-3 px-4">Lição / Desafio</th>
-                  <th class="py-3 px-4">Status</th>
-                  <th class="py-3 px-4 text-right">XP Ganho</th>
-                </tr>
-              </thead>
-              <tbody id="results-table-body" class="divide-y divide-slate-100 text-sm text-slate-800">
-                <tr>
-                  <td colspan="5" class="py-4 text-center text-xs text-slate-600">Nenhum exercício respondido ainda.</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+      <section class="reveal bg-white rounded-3xl shadow-sm border border-slate-200 p-6 sm:p-8" aria-labelledby="section-results-title">
+        <div class="flex items-center justify-between mb-4">
+          <h2 id="section-results-title" class="text-lg font-bold text-slate-900 flex items-center gap-2">
+            <span aria-hidden="true">📊</span> Tabela de Desempenho e Histórico
+          </h2>
+          <button onclick="resetResults()" class="text-xs text-slate-500 hover:text-slate-800 underline font-medium cursor-pointer">Limpar Histórico</button>
+        </div>
+        <p class="text-xs text-slate-500 mb-4">Registro persistido no navegador do aluno.</p>
+        
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse" aria-label="Histórico de desempenho">
+            <thead>
+              <tr class="border-b border-slate-200 text-xs font-bold text-slate-500 uppercase tracking-wider">
+                <th class="py-3 px-4">Modo / Matéria</th>
+                <th class="py-3 px-4">Nível</th>
+                <th class="py-3 px-4">Lição / Módulo</th>
+                <th class="py-3 px-4">Status</th>
+                <th class="py-3 px-4 text-right">XP Ganho</th>
+              </tr>
+            </thead>
+            <tbody id="results-table-body" class="divide-y divide-slate-100 text-sm text-slate-700">
+              <tr>
+                <td colspan="5" class="py-6 text-center text-xs text-slate-400">Nenhum exercício respondido ainda nesta sessão.</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </section>
-
     </main>
 
-    <footer class="text-center py-8 text-xs text-slate-600" role="contentinfo">
-      Jamstack Architecture • Password Authenticated • Core Web Vitals 100/100
+    <footer class="text-center py-8 text-xs text-slate-500" role="contentinfo">
+      Jamstack Enterprise Architecture • Dynamic Password Setup • Core Web Vitals 100/100
     </footer>
   </div>
 
-  <!-- Script Vanilla JS Otimizado com Autenticação -->
   <script>
-    // Hash SHA-256 padrão para a senha "estudo2026"
-    // Pode alterar o hash conforme desejar. Hash abaixo corresponde a "estudo2026"
-    const TARGET_PASSWORD_HASH = "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918";
-
     async function sha256(message) {
       const msgBuffer = new TextEncoder().encode(message);
       const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
@@ -253,19 +240,60 @@
       return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
     }
 
-    async function handleLogin(event) {
+    // Inicialização da Autenticação / Setup
+    document.addEventListener("DOMContentLoaded", function () {
+      const savedHash = localStorage.getItem('missao_estudo_pwd_hash');
+      const isAuthed = localStorage.getItem('missao_estudo_auth');
+
+      if (!savedHash) {
+        // Primeiro acesso: Configuração de Senha
+        document.getElementById('auth-title').textContent = "Configurar Nova Senha";
+        document.getElementById('auth-subtitle').textContent = "Como este é o primeiro acesso, defina a senha que será usada para proteger o acesso à central.";
+        document.getElementById('auth-label').textContent = "Criar Senha de Acesso";
+        document.getElementById('access-password').placeholder = "Digite uma senha segura...";
+        document.getElementById('auth-btn').textContent = "Salvar e Entrar →";
+      } else if (isAuthed === 'true') {
+        document.getElementById('auth-screen').style.display = 'none';
+        document.getElementById('app-content').classList.remove('hidden');
+        initApp();
+      } else {
+        // Acesso Padrão: Digitar Senha
+        document.getElementById('auth-title').textContent = "Acesso Restrito";
+        document.getElementById('auth-subtitle').textContent = "Digite sua senha para entrar na Central de Estudos.";
+        document.getElementById('auth-label').textContent = "Senha de Acesso";
+        document.getElementById('auth-btn').textContent = "Entrar na Central →";
+      }
+    });
+
+    async function handleAuthSubmit(event) {
       event.preventDefault();
       const pwdInput = document.getElementById('access-password').value;
       const errorMsg = document.getElementById('login-error');
-      
-      const inputHash = await sha256(pwdInput);
-      if (inputHash === TARGET_PASSWORD_HASH) {
+      const savedHash = localStorage.getItem('missao_estudo_pwd_hash');
+
+      if (!savedHash) {
+        // Salvar nova senha no primeiro acesso
+        if (pwdInput.length < 4) {
+          errorMsg.textContent = "❌ A senha deve ter pelo menos 4 caracteres.";
+          return;
+        }
+        const newHash = await sha256(pwdInput);
+        localStorage.setItem('missao_estudo_pwd_hash', newHash);
         localStorage.setItem('missao_estudo_auth', 'true');
         document.getElementById('auth-screen').style.display = 'none';
         document.getElementById('app-content').classList.remove('hidden');
         initApp();
       } else {
-        errorMsg.textContent = "❌ Senha incorreta. Tente novamente.";
+        // Validar senha existente
+        const inputHash = await sha256(pwdInput);
+        if (inputHash === savedHash) {
+          localStorage.setItem('missao_estudo_auth', 'true');
+          document.getElementById('auth-screen').style.display = 'none';
+          document.getElementById('app-content').classList.remove('hidden');
+          initApp();
+        } else {
+          errorMsg.textContent = "❌ Senha incorreta. Tente novamente.";
+        }
       }
     }
 
@@ -274,7 +302,7 @@
       window.location.reload();
     }
 
-    // Banco de dados e lógica da aplicação
+    // Banco de Dados Curricular Completo (Ensino Fundamental II)
     const database = {
       matematica: {
         badge: "Matemática",
@@ -283,32 +311,32 @@
             {
               title: "Lição 1: Conceito e Operações com Frações",
               duration: "10 min",
-              theory: "<strong>Fundamentação Teórica:</strong> Uma fração representa partes de um todo dividido em partes iguais. O numerador indica quantas partes consideramos, e o denominador o total de divisões.",
+              theory: "<strong>Fundamentação Teórica (6º Ano):</strong> Uma fração representa partes de um todo dividido em partes iguais. O numerador indica quantas partes consideramos, e o denominador o total de divisões.",
               exercises: [
-                { q: "Qual é o numerador de 3/8?", options: [{val: "5", correct: false}, {val: "3", correct: true}, {val: "8", correct: false}] },
-                { q: "Quanto é 2/7 + 3/7?", options: [{val: "5/7", correct: true}, {val: "5/14", correct: false}, {val: "6/7", correct: false}] },
+                { q: "Qual é o numerador da fração 3/8?", options: [{val: "5", correct: false}, {val: "3", correct: true}, {val: "8", correct: false}] },
+                { q: "Quanto é a soma 2/7 + 3/7?", options: [{val: "5/7", correct: true}, {val: "5/14", correct: false}, {val: "6/7", correct: false}] },
                 { q: "Qual fração é equivalente a 1/2?", options: [{val: "2/3", correct: false}, {val: "4/8", correct: true}, {val: "3/5", correct: false}] }
               ]
             }
           ],
           medium: [
             {
-              title: "Lição 1: Adição e Subtração com Denominadores Diferentes",
+              title: "Lição 1: MMC e Adição de Frações Diferentes",
               duration: "15 min",
-              theory: "<strong>Fundamentação Teórica:</strong> Para somar frações com denominadores diferentes, devemos encontrar o MMC dos denominadores.",
+              theory: "<strong>Fundamentação Teórica (7º-8º Ano):</strong> Para somar frações com denominadores diferentes, precisamos calcular o Mínimo Múltiplo Comum (MMC).",
               exercises: [
-                { q: "Qual é o MMC entre 2 e 3?", options: [{val: "5", correct: false}, {val: "6", correct: true}, {val: "8", correct: false}] },
+                { q: "Qual é o MMC entre 4 e 6?", options: [{val: "10", correct: false}, {val: "12", correct: true}, {val: "24", correct: false}] },
                 { q: "Quanto é 1/2 + 1/3?", options: [{val: "2/5", correct: false}, {val: "5/6", correct: true}, {val: "2/6", correct: false}] }
               ]
             }
           ],
           hard: [
             {
-              title: "Lição 1: Expressões Algébricas Avançadas",
+              title: "Lição 1: Equações do 2º Fórmula de Bhaskara",
               duration: "20 min",
-              theory: "<strong>Fundamentação Teórica:</strong> Envolve fatoração e resolução de equações fracionárias complexas do 1º grau.",
+              theory: "<strong>Fundamentação Teórica (9º Ano):</strong> Uma equação do 2º grau possui a forma ax² + bx + c = 0. Resolvemos utilizando o Delta e Bhaskara.",
               exercises: [
-                { q: "Resolva: 3(x + 2) = 15. Qual o valor de x?", options: [{val: "x = 3", correct: true}, {val: "x = 5", correct: false}, {val: "x = 7", correct: false}] }
+                { q: "Qual o valor do Delta (Δ) para x² - 5x + 6 = 0?", options: [{val: "1", correct: true}, {val: "25", correct: false}, {val: "0", correct: false}] }
               ]
             }
           ]
@@ -321,29 +349,29 @@
             {
               title: "Lição 1: Estados Físicos da Matéria",
               duration: "10 min",
-              theory: "<strong>Fundamentação Teórica:</strong> A matéria apresenta-se em estados sólido, líquido e gasoso.",
+              theory: "<strong>Fundamentação Teórica (6º Ano):</strong> A matéria apresenta-se em sólido, líquido e gasoso. Passagens: fusão, ebulição, condensação e sublimação.",
               exercises: [
-                { q: "Mudança do estado sólido direto para gasoso:", options: [{val: "Fusão", correct: false}, {val: "Sublimação", correct: true}, {val: "Condensação", correct: false}] }
+                { q: "Passagem do sólido direto para o gasoso:", options: [{val: "Fusão", correct: false}, {val: "Sublimação", correct: true}, {val: "Condensação", correct: false}] }
               ]
             }
           ],
           medium: [
             {
               title: "Lição 1: Termodinâmica e Calor",
-              duration: "12 min",
-              theory: "<strong>Fundamentação Teórica:</strong> O calor é a energia térmica em trânsito entre corpos.",
+              duration: "15 min",
+              theory: "<strong>Fundamentação Teórica (8º Ano):</strong> O calor propaga-se por Condução, Convecção e Irradiação.",
               exercises: [
-                { q: "Como o calor se propaga no vácuo?", options: [{val: "Por condução", correct: false}, {val: "Por irradiação", correct: true}, {val: "Por convecção", correct: false}] }
+                { q: "Como o calor do Sol chega até a Terra?", options: [{val: "Por condução", correct: false}, {val: "Por irradiação", correct: true}, {val: "Por convecção", correct: false}] }
               ]
             }
           ],
           hard: [
             {
-              title: "Lição 1: Reações Químicas Endotérmicas e Exotérmicas",
-              duration: "15 min",
-              theory: "<strong>Fundamentação Teórica:</strong> Reações exotérmicas liberam calor para o ambiente.",
+              title: "Lição 1: Leis de Newton e Dinâmica",
+              duration: "20 min",
+              theory: "<strong>Fundamentação Teórica (9º Ano):</strong> Princípio Fundamental da Dinâmica (F = m.a).",
               exercises: [
-                { q: "A queima de combustíveis é uma reação:", options: [{val: "Exotérmica", correct: true}, {val: "Endotérmica", correct: false}, {val: "Neutra", correct: false}] }
+                { q: "Qual a força para acelerar 2 kg a 3 m/s²?", options: [{val: "5 N", correct: false}, {val: "6 N", correct: true}, {val: "1.5 N", correct: false}] }
               ]
             }
           ]
@@ -356,7 +384,7 @@
             {
               title: "Lição 1: As Grandes Navegações",
               duration: "12 min",
-              theory: "<strong>Fundamentação Teórica:</strong> Expansão marítima europeia nos séculos XV e XVI.",
+              theory: "<strong>Fundamentação Teórica (7º Ano):</strong> Exploração oceânica nos séculos XV e XVI rumo às Índias.",
               exercises: [
                 { q: "Em qual século ocorreu o ápice das Navegações?", options: [{val: "Século XV", correct: true}, {val: "Século XX", correct: false}, {val: "Século X", correct: false}] }
               ]
@@ -364,21 +392,21 @@
           ],
           medium: [
             {
-              title: "Lição 1: O Tratado de Tordesilhas",
+              title: "Lição 1: Revolução Industrial",
               duration: "15 min",
-              theory: "<strong>Fundamentação Teórica:</strong> Acordo assinado em 1494 dividindo as terras descobertas.",
+              theory: "<strong>Fundamentação Teórica (8º Ano):</strong> Transformação da produção artesanal em fabril na Inglaterra.",
               exercises: [
-                { q: "Qual país ficou com a porção leste do meridiano?", options: [{val: "Espanha", correct: false}, {val: "Portugal", correct: true}, {val: "França", correct: false}] }
+                { q: "Qual país iniciou a Revolução Industrial?", options: [{val: "França", correct: false}, {val: "Inglaterra", correct: true}, {val: "Alemanha", correct: false}] }
               ]
             }
           ],
           hard: [
             {
-              title: "Lição 1: Mercantilismo e Pacto Colonial",
-              duration: "20 min",
-              theory: "<strong>Fundamentação Teórica:</strong> Sistema econômico baseado no exclusivo comercial.",
+              title: "Lição 1: A Era Vargas",
+              duration: "18 min",
+              theory: "<strong>Fundamentação Teórica (9º Ano):</strong> Industrialização de base e leis trabalhistas no Brasil.",
               exercises: [
-                { q: "O que determinava o Pacto Colonial?", options: [{val: "Comércio livre global", correct: false}, {val: "Exclusividade de comércio com a metrópole", correct: true}, {val: "Autonomia total", correct: false}] }
+                { q: "Em que ano foi promulgada a CLT?", options: [{val: "1930", correct: false}, {val: "1943", correct: true}, {val: "1950", correct: false}] }
               ]
             }
           ]
@@ -391,7 +419,7 @@
             {
               title: "Lição 1: Coordenadas Geográficas",
               duration: "10 min",
-              theory: "<strong>Fundamentação Teórica:</strong> O globo é mapeado por paralelos e meridianos.",
+              theory: "<strong>Fundamentação Teórica (6º Ano):</strong> Paralelos e meridianos formam a rede de localização.",
               exercises: [
                 { q: "Linha que divide a Terra em Norte e Sul:", options: [{val: "Equador", correct: true}, {val: "Greenwich", correct: false}, {val: "Trópico de Câncer", correct: false}] }
               ]
@@ -399,21 +427,21 @@
           ],
           medium: [
             {
-              title: "Lição 1: Fusos Horários",
+              title: "Lição 1: Tectônica de Placas",
               duration: "15 min",
-              theory: "<strong>Fundamentação Teórica:</strong> Divisão da Terra em 24 fusos de 15 graus.",
+              theory: "<strong>Fundamentação Teórica (7º Ano):</strong> Movimentos da litosfera geram relevo e terremotos.",
               exercises: [
-                { q: "Quantos graus abrange cada fuso horário oficial?", options: [{val: "10º", correct: false}, {val: "15º", correct: true}, {val: "30º", correct: false}] }
+                { q: "Movimento de afastamento entre placas:", options: [{val: "Divergente", correct: true}, {val: "Convergente", correct: false}, {val: "Transformante", correct: false}] }
               ]
             }
           ],
           hard: [
             {
-              title: "Lição 1: Dinâmica das Placas Tectônicas",
+              title: "Lição 1: Globalização e Blocos Econômicos",
               duration: "18 min",
-              theory: "<strong>Fundamentação Teórica:</strong> Movimentos convergentes, divergentes e transformantes.",
+              theory: "<strong>Fundamentação Teórica (9º Ano):</strong> Integração mundial econômica e formação de blocos.",
               exercises: [
-                { q: "Como se chama o movimento de afastamento entre placas?", options: [{val: "Convergente", correct: false}, {val: "Divergente", correct: true}, {val: "Subducção", correct: false}] }
+                { q: "Bloco europeu que adota a moeda Euro:", options: [{val: "Nafta", correct: false}, {val: "União Europeia", correct: true}, {val: "Mercosul", correct: false}] }
               ]
             }
           ]
@@ -426,29 +454,29 @@
             {
               title: "Lição 1: Metáfora e Comparação",
               duration: "10 min",
-              theory: "<strong>Fundamentação Teórica:</strong> A metáfora estabelece comparação implícita.",
+              theory: "<strong>Fundamentação Teórica (7º Ano):</strong> A metáfora compara implicitamente sem conectivo.",
               exercises: [
-                { q: "'Aquele jogador é um touro' é:", options: [{val: "Metáfora", correct: true}, {val: "Onomatopeia", correct: false}, {val: "Pleonasmo", correct: false}] }
+                { q: "'Seu coração é de ouro' é um exemplo de:", options: [{val: "Metáfora", correct: true}, {val: "Onomatopeia", correct: false}, {val: "Pleonasmo", correct: false}] }
               ]
             }
           ],
           medium: [
             {
-              title: "Lição 1: Sintaxe: Sujeito e Predicado",
+              title: "Lição 1: Sujeito e Predicado",
               duration: "15 min",
-              theory: "<strong>Fundamentação Teórica:</strong> Estrutura fundamental da oração.",
+              theory: "<strong>Fundamentação Teórica (8º Ano):</strong> Estrutura fundamental da oração na língua portuguesa.",
               exercises: [
-                { q: "Em 'Os alunos estudaram', o núcleo do sujeito é:", options: [{val: "Alunos", correct: true}, {val: "Estudaram", correct: false}, {val: "Muito", correct: false}] }
+                { q: "Em 'Os alunos estudaram', o núcleo do sujeito é:", options: [{val: "Alunos", correct: true}, {val: "Estudaram", correct: false}, {val: "Prova", correct: false}] }
               ]
             }
           ],
           hard: [
             {
-              title: "Lição 1: Orações Subordinadas Substantivas",
+              title: "Lição 1: Orações Subordinadas",
               duration: "20 min",
-              theory: "<strong>Fundamentação Teórica:</strong> Desempenham papel equivalente a um substantivo.",
+              theory: "<strong>Fundamentação Teórica (9º Ano):</strong> Desempenham papel equivalente a um substantivo.",
               exercises: [
-                { q: "Na frase 'Quero que venhas', a oração destacada é:", options: [{val: "Subordinada Substantiva Objetiva Direta", correct: true}, {val: "Adjetiva Restritiva", correct: false}, {val: "Adverbial", correct: false}] }
+                { q: "Na frase 'Quero que venhas', a oração destacada é:", options: [{val: "Subordinada Objetiva Direta", correct: true}, {val: "Adjetiva Restritiva", correct: false}, {val: "Adverbial", correct: false}] }
               ]
             }
           ]
@@ -476,8 +504,9 @@
       }
       document.getElementById('xp-counter').textContent = userXp + " XP";
       updateUIState();
+      renderLessonTabs();
+      loadLessonContent();
       renderResultsTable();
-      switchSubject('matematica');
 
       const observer = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
@@ -506,6 +535,15 @@
     }
 
     function setDifficulty(diff) {
+      if (diff === 'medium' && userXp < 150) {
+        alert("🔒 Nível Médio bloqueado! Você precisa de pelo menos 150 XP para desbloquear.");
+        return;
+      }
+      if (diff === 'hard' && userXp < 300) {
+        alert("🔒 Nível Difícil bloqueado! Você precisa de pelo menos 300 XP para desbloquear.");
+        return;
+      }
+
       currentDifficulty = diff;
       currentLessonIdx = 0;
       currentExIdx = 0;
@@ -515,15 +553,15 @@
     }
 
     function updateUIState() {
-      document.getElementById('btn-mode-study').className = currentMode === 'study' ? "px-3 py-1 text-xs font-bold rounded-lg bg-emerald-700 text-white transition-all cursor-pointer" : "px-3 py-1 text-xs font-bold rounded-lg text-slate-700 hover:bg-slate-100 transition-all cursor-pointer";
-      document.getElementById('btn-mode-challenge').className = currentMode === 'challenge' ? "px-3 py-1 text-xs font-bold rounded-lg bg-rose-700 text-white transition-all cursor-pointer" : "px-3 py-1 text-xs font-bold rounded-lg text-slate-700 hover:bg-slate-100 transition-all cursor-pointer";
+      document.getElementById('btn-mode-study').className = currentMode === 'study' ? "px-3.5 py-1.5 text-xs font-bold rounded-lg bg-emerald-700 text-white transition-all cursor-pointer shadow-sm" : "px-3.5 py-1.5 text-xs font-bold rounded-lg text-slate-700 hover:bg-slate-200 transition-all cursor-pointer";
+      document.getElementById('btn-mode-challenge').className = currentMode === 'challenge' ? "px-3.5 py-1.5 text-xs font-bold rounded-lg bg-rose-700 text-white transition-all cursor-pointer shadow-sm" : "px-3.5 py-1.5 text-xs font-bold rounded-lg text-slate-700 hover:bg-slate-200 transition-all cursor-pointer";
 
       ['easy', 'medium', 'hard'].forEach(d => {
         const btn = document.getElementById(`btn-diff-${d}`);
         if (d === currentDifficulty) {
-          btn.className = "px-3 py-1 text-xs font-bold rounded-lg bg-slate-900 text-white transition-all cursor-pointer";
+          btn.className = "px-3 py-1.5 text-xs font-bold rounded-lg bg-slate-900 text-white transition-all cursor-pointer shadow-sm";
         } else {
-          btn.className = "px-3 py-1 text-xs font-bold rounded-lg text-slate-700 hover:bg-slate-100 transition-all cursor-pointer";
+          btn.className = "px-3 py-1.5 text-xs font-bold rounded-lg text-slate-700 hover:bg-slate-200 transition-all cursor-pointer";
         }
       });
 
@@ -574,7 +612,7 @@
       lessons.forEach((lesson, idx) => {
         const btn = document.createElement('button');
         btn.onclick = () => selectLesson(idx);
-        btn.className = `px-4 py-2 text-xs font-bold rounded-xl transition-all cursor-pointer whitespace-nowrap ${idx === currentLessonIdx ? 'bg-emerald-700 text-white shadow-sm' : 'bg-white border border-slate-300 text-slate-700 hover:bg-slate-100'}`;
+        btn.className = `px-4 py-2 text-xs font-bold rounded-xl transition-all cursor-pointer whitespace-nowrap shadow-sm ${idx === currentLessonIdx ? 'bg-emerald-700 text-white' : 'bg-slate-100 border border-slate-200 text-slate-700 hover:bg-slate-200'}`;
         btn.textContent = `Lição ${idx + 1}: ${lesson.title.split(':')[1] || lesson.title}`;
         tabsContainer.appendChild(btn);
       });
@@ -606,7 +644,7 @@
 
     function handleTimeOut() {
       const feedback = document.getElementById('feedback-msg');
-      feedback.className = "text-xs font-medium text-rose-700 h-4";
+      feedback.className = "text-xs font-bold text-rose-700 h-4";
       feedback.textContent = "⏰ Tempo esgotado! Questão considerada errada.";
       
       const subjectObj = database[currentSubject];
@@ -645,16 +683,16 @@
 
       const exContainer = document.getElementById('exercise-container');
       let optionsHtml = exercise.options.map((opt, i) => `
-        <button onclick="checkAnswer(this, ${opt.correct})" class="w-full text-left px-4 py-3 text-xs font-semibold bg-white border border-slate-300 rounded-xl hover:bg-slate-100 transition-colors cursor-pointer flex items-center justify-between" aria-label="Opção ${String.fromCharCode(65 + i)}">
-          <span>${String.fromCharCode(65 + i)}) ${opt.val}</span>
-          <span class="w-4 h-4 rounded-full border border-slate-400 inline-block" aria-hidden="true"></span>
+        <button onclick="checkAnswer(this, ${opt.correct})" class="w-full text-left px-5 py-3.5 text-xs font-bold bg-slate-50 border border-slate-200 rounded-2xl hover:bg-white hover:border-slate-300 transition-all cursor-pointer flex items-center justify-between shadow-sm" aria-label="Opção ${String.fromCharCode(65 + i)}">
+          <span class="text-slate-800">${String.fromCharCode(65 + i)}) ${opt.val}</span>
+          <span class="w-4 h-4 rounded-full border border-slate-300 inline-block" aria-hidden="true"></span>
         </button>
       `).join('');
 
       exContainer.innerHTML = `
-        <div class="bg-slate-50 p-4 rounded-xl border border-slate-300 space-y-3">
-          <p class="text-sm font-bold text-slate-900">Questão ${currentExIdx + 1}: ${exercise.q}</p>
-          <div class="grid grid-cols-1 gap-2 mt-2">${optionsHtml}</div>
+        <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-3 shadow-inner">
+          <p class="text-sm font-extrabold text-slate-900">Questão ${currentExIdx + 1}: ${exercise.q}</p>
+          <div class="grid grid-cols-1 gap-2.5 mt-3">${optionsHtml}</div>
         </div>
       `;
 
@@ -682,15 +720,15 @@
       if (isCorrect) {
         const bonus = currentMode === 'challenge' ? Math.floor(timeLeft / 2) : 0;
         xpGained = 20 + bonus;
-        feedback.className = "text-xs font-medium text-emerald-800 h-4";
+        feedback.className = "text-xs font-bold text-emerald-800 h-4";
         feedback.textContent = `🎉 Resposta Correta! +${xpGained} XP ${bonus > 0 ? '(Bônus de Velocidade!)' : ''}`;
         userXp += xpGained;
         document.getElementById('xp-counter').textContent = userXp + " XP";
         btn.classList.add('bg-emerald-50', 'border-emerald-600', 'text-emerald-900');
         statusText = 'Acertou';
       } else {
-        feedback.className = "text-xs font-medium text-rose-700 h-4";
-        feedback.textContent = "❌ Resposta Incorreta.";
+        feedback.className = "text-xs font-bold text-rose-700 h-4";
+        feedback.textContent = "❌ Resposta Incorreta. Revise a fundamentação teórica acima.";
         btn.classList.add('bg-rose-50', 'border-rose-400', 'text-rose-900');
         statusText = 'Errou';
       }
@@ -718,32 +756,32 @@
         currentExIdx++;
         loadLessonContent();
       } else {
-        alert("Parabéns! Você concluiu as questões desta etapa.");
+        alert("🏆 Parabéns! Você concluiu todas as questões desta etapa com sucesso.");
       }
     }
 
     function renderResultsTable() {
       const tbody = document.getElementById('results-table-body');
       if (resultsLog.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="5" class="py-4 text-center text-xs text-slate-600">Nenhum exercício respondido ainda.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="5" class="py-6 text-center text-xs text-slate-400">Nenhum exercício respondido ainda nesta sessão.</td></tr>`;
         return;
       }
 
       tbody.innerHTML = resultsLog.map(row => `
         <tr class="hover:bg-slate-50 transition-colors">
-          <td class="py-3 px-4 font-semibold">${row.mode || '📖 Estudo'} • ${row.subject}</td>
-          <td class="py-3 px-4 text-xs font-bold text-slate-700">${row.level}</td>
-          <td class="py-3 px-4 text-slate-700">${row.lesson}</td>
+          <td class="py-3 px-4 font-bold text-slate-800">${row.mode || '📖 Estudo'} • ${row.subject}</td>
+          <td class="py-3 px-4 text-xs font-bold text-slate-600">${row.level}</td>
+          <td class="py-3 px-4 text-slate-600">${row.lesson}</td>
           <td class="py-3 px-4">
-            <span class="inline-block px-2 py-0.5 text-xs font-bold rounded-md ${row.status === 'Acertou' ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'}">${row.status}</span>
+            <span class="inline-block px-2.5 py-1 text-xs font-bold rounded-lg ${row.status === 'Acertou' ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'}">${row.status}</span>
           </td>
-          <td class="py-3 px-4 text-right font-semibold text-emerald-800">+${row.xp} XP</td>
+          <td class="py-3 px-4 text-right font-extrabold text-emerald-800">+${row.xp} XP</td>
         </tr>
       `).join('');
     }
 
     function resetResults() {
-      if (confirm("Deseja limpar todo o histórico e pontuação salva?")) {
+      if (confirm("Deseja limpar todo o histórico de desempenho e pontuação salva?")) {
         localStorage.removeItem('missao_estudo_xp');
         localStorage.removeItem('missao_estudo_log');
         userXp = 120;
@@ -756,16 +794,6 @@
         switchSubject('matematica');
       }
     }
-
-    // Checagem de sessão salva no carregamento
-    document.addEventListener("DOMContentLoaded", function () {
-      const isAuthed = localStorage.getItem('missao_estudo_auth');
-      if (isAuthed === 'true') {
-        document.getElementById('auth-screen').style.display = 'none';
-        document.getElementById('app-content').classList.remove('hidden');
-        initApp();
-      }
-    });
   </script>
 </body>
 </html>

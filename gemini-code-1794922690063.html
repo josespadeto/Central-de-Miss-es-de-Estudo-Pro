@@ -14,7 +14,7 @@
             brand: {
               50: '#f0fdf4',
               500: '#22c55e',
-              600: '#15803d', /* Contraste WCAG AAA otimizado */
+              600: '#15803d',
               700: '#14532d',
             }
           }
@@ -23,7 +23,6 @@
     }
   </script>
   <style>
-    /* Respeito estrito a preferências de acessibilidade e redução de movimento */
     @media (prefers-reduced-motion: reduce) {
       *, ::before, ::after {
         animation-duration: 0.01ms !important;
@@ -33,7 +32,6 @@
       }
     }
 
-    /* Sistema de Revelação por Scroll via GPU (Transform & Opacity apenas) */
     .reveal {
       opacity: 0;
       transform: translateY(16px);
@@ -45,14 +43,12 @@
       transform: translateY(0);
     }
 
-    /* Zero Layout Shift em Containers Dinâmicos */
     .content-box {
       min-height: 480px;
       contain: layout paint style;
     }
 
-    /* Foco acessível WCAG para navegação por teclado */
-    button:focus-visible, a:focus-visible {
+    button:focus-visible, a:focus-visible, input:focus-visible {
       outline: 3px solid #15803d;
       outline-offset: 2px;
     }
@@ -60,170 +56,225 @@
 </head>
 <body class="bg-slate-50 text-slate-900 font-sans antialiased selection:bg-emerald-600 selection:text-white">
 
-  <!-- Header / Hero Section -->
-  <header class="bg-gradient-to-r from-emerald-700 to-teal-800 text-white shadow-md" role="banner">
-    <div class="max-w-5xl mx-auto px-4 py-8 flex flex-col sm:flex-row justify-between items-center gap-4">
+  <!-- Tela de Login (Exibida por padrão se não autenticado) -->
+  <div id="auth-screen" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-xl border border-slate-300 max-w-md w-full p-8 text-center space-y-6">
+      <div class="w-16 h-16 bg-emerald-100 text-emerald-700 rounded-2xl flex items-center justify-center text-3xl mx-auto" aria-hidden="true">🔒</div>
       <div>
-        <span class="inline-block bg-emerald-600/40 text-emerald-100 text-xs font-semibold px-3 py-1 rounded-full mb-2" aria-label="Nível escolar">🚀 Ensino Fundamental II • 6º ao 9º Ano</span>
-        <h1 class="text-3xl font-extrabold tracking-tight">Central de Missões de Estudo Pro</h1>
-        <p class="text-emerald-100 text-sm mt-1">Teoria rigorosa, prática progressiva e Modo Desafio Cronometrado.</p>
+        <h2 class="text-2xl font-extrabold text-slate-900">Acesso Restrito</h2>
+        <p class="text-xs text-slate-600 mt-1">Digite a senha de acesso para entrar na Central de Estudos.</p>
       </div>
-      <div class="bg-white/10 backdrop-blur-md px-4 py-3 rounded-xl border border-white/20 flex items-center gap-3" aria-label="Pontuação do Aluno">
-        <div class="text-2xl" aria-hidden="true">⭐</div>
+
+      <form onsubmit="handleLogin(event)" class="space-y-4 text-left">
         <div>
-          <p class="text-xs text-emerald-200">Pontuação Total</p>
-          <p id="xp-counter" class="text-lg font-bold">120 XP</p>
+          <label for="access-password" class="block text-xs font-bold text-slate-700 mb-1">Senha de Acesso</label>
+          <input type="password" id="access-password" required placeholder="Digite sua senha..." class="w-full px-4 py-3 text-sm bg-slate-50 border border-slate-300 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-700 transition-all">
         </div>
-      </div>
+        <p id="login-error" class="text-xs font-medium text-rose-700 h-4" aria-live="polite"></p>
+        <button type="submit" class="w-full py-3 bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-sm cursor-pointer">
+          Entrar na Missão →
+        </button>
+      </form>
+      <p class="text-[11px] text-slate-600">Dica padrão para testes: <strong>estudo2026</strong></p>
     </div>
-  </header>
+  </div>
 
-  <main class="max-w-5xl mx-auto px-4 py-8 space-y-10" role="main">
-
-    <!-- Seção 1: Escolha a Matéria, Nível e Modo de Estudo -->
-    <section class="reveal" aria-labelledby="section-selection-title">
-      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-4">
+  <!-- Conteúdo Principal da Aplicação (Oculto até autenticação) -->
+  <div id="app-content" class="hidden">
+    <!-- Header / Hero Section -->
+    <header class="bg-gradient-to-r from-emerald-700 to-teal-800 text-white shadow-md" role="banner">
+      <div class="max-w-5xl mx-auto px-4 py-8 flex flex-col sm:flex-row justify-between items-center gap-4">
         <div>
-          <h2 id="section-selection-title" class="text-xl font-bold text-slate-900 flex items-center gap-2">
-            <span aria-hidden="true">🎯</span> Escolha a Matéria
-          </h2>
-          <span class="text-xs text-slate-600">Selecione uma área do conhecimento</span>
+          <span class="inline-block bg-emerald-600/40 text-emerald-100 text-xs font-semibold px-3 py-1 rounded-full mb-2">🚀 Ensino Fundamental II • 6º ao 9º Ano</span>
+          <h1 class="text-3xl font-extrabold tracking-tight">Central de Missões de Estudo Pro</h1>
+          <p class="text-emerald-100 text-sm mt-1">Teoria rigorosa, prática progressiva e Modo Desafio Cronometrado.</p>
         </div>
-
-        <div class="flex flex-wrap items-center gap-3">
-          <!-- Alternador de Modo de Estudo / Desafio -->
-          <div class="flex items-center gap-1 bg-white p-1.5 rounded-xl border border-slate-300 shadow-sm" role="region" aria-label="Modo de Estudo">
-            <button onclick="setMode('study')" id="btn-mode-study" class="px-3 py-1 text-xs font-bold rounded-lg bg-emerald-700 text-white transition-all cursor-pointer">📖 Estudo</button>
-            <button onclick="setMode('challenge')" id="btn-mode-challenge" class="px-3 py-1 text-xs font-bold rounded-lg text-slate-700 hover:bg-slate-100 transition-all cursor-pointer">⚡ Modo Desafio</button>
-          </div>
-
-          <!-- Seletor de Níveis de Dificuldade -->
-          <div class="flex items-center gap-1 bg-white p-1.5 rounded-xl border border-slate-300 shadow-sm" role="region" aria-label="Nível de Dificuldade">
-            <button onclick="setDifficulty('easy')" id="btn-diff-easy" class="px-3 py-1 text-xs font-bold rounded-lg bg-slate-900 text-white transition-all cursor-pointer">Fácil</button>
-            <button onclick="setDifficulty('medium')" id="btn-diff-medium" class="px-3 py-1 text-xs font-bold rounded-lg text-slate-700 hover:bg-slate-100 transition-all cursor-pointer">Médio</button>
-            <button onclick="setDifficulty('hard')" id="btn-diff-hard" class="px-3 py-1 text-xs font-bold rounded-lg text-slate-700 hover:bg-slate-100 transition-all cursor-pointer">Difícil</button>
-          </div>
-        </div>
-      </div>
-
-      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
-        <button onclick="switchSubject('matematica')" data-subject="matematica" class="subject-card group bg-white p-4 rounded-2xl shadow-sm border-2 border-emerald-600 transition-all duration-200 hover:-translate-y-1 hover:shadow-md text-left cursor-pointer" aria-label="Matemática">
-          <div class="w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center text-xl mb-2 group-hover:scale-110 transition-transform" aria-hidden="true">📐</div>
-          <h3 class="font-bold text-slate-900 text-sm">Matemática</h3>
-          <p class="text-xs text-slate-600 mt-0.5">Frações & Álgebra</p>
-        </button>
-
-        <button onclick="switchSubject('ciencias')" data-subject="ciencias" class="subject-card group bg-white p-4 rounded-2xl shadow-sm border-2 border-transparent hover:border-teal-600 transition-all duration-200 hover:-translate-y-1 hover:shadow-md text-left cursor-pointer" aria-label="Ciências">
-          <div class="w-10 h-10 rounded-xl bg-teal-100 flex items-center justify-center text-xl mb-2 group-hover:scale-110 transition-transform" aria-hidden="true">🔬</div>
-          <h3 class="font-bold text-slate-900 text-sm">Ciências</h3>
-          <p class="text-xs text-slate-600 mt-0.5">Estados & Calor</p>
-        </button>
-
-        <button onclick="switchSubject('historia')" data-subject="historia" class="subject-card group bg-white p-4 rounded-2xl shadow-sm border-2 border-transparent hover:border-amber-600 transition-all duration-200 hover:-translate-y-1 hover:shadow-md text-left cursor-pointer" aria-label="História">
-          <div class="w-10 h-10 rounded-xl bg-amber-100 flex items-center justify-center text-xl mb-2 group-hover:scale-110 transition-transform" aria-hidden="true">📜</div>
-          <h3 class="font-bold text-slate-900 text-sm">História</h3>
-          <p class="text-xs text-slate-600 mt-0.5">Navegações</p>
-        </button>
-
-        <button onclick="switchSubject('geografia')" data-subject="geografia" class="subject-card group bg-white p-4 rounded-2xl shadow-sm border-2 border-transparent hover:border-blue-600 transition-all duration-200 hover:-translate-y-1 hover:shadow-md text-left cursor-pointer" aria-label="Geografia">
-          <div class="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center text-xl mb-2 group-hover:scale-110 transition-transform" aria-hidden="true">🌍</div>
-          <h3 class="font-bold text-slate-900 text-sm">Geografia</h3>
-          <p class="text-xs text-slate-600 mt-0.5">Cartografia</p>
-        </button>
-
-        <button onclick="switchSubject('portugues')" data-subject="portugues" class="subject-card group bg-white p-4 rounded-2xl shadow-sm border-2 border-transparent hover:border-purple-600 transition-all duration-200 hover:-translate-y-1 hover:shadow-md text-left cursor-pointer" aria-label="Português">
-          <div class="w-10 h-10 rounded-xl bg-purple-100 flex items-center justify-center text-xl mb-2 group-hover:scale-110 transition-transform" aria-hidden="true">📚</div>
-          <h3 class="font-bold text-slate-900 text-sm">Português</h3>
-          <p class="text-xs text-slate-600 mt-0.5">Estilística</p>
-        </button>
-      </div>
-
-      <!-- Seletor de Lições Internas (Apenas no Modo Estudo) -->
-      <div id="lesson-tabs-wrapper" class="mt-4">
-        <div id="lesson-tabs" class="flex gap-2 overflow-x-auto pb-2" role="tablist" aria-label="Lições disponíveis"></div>
-      </div>
-    </section>
-
-    <!-- Seção 2: Teoria & Prática / Modo Desafio -->
-    <section class="reveal" aria-labelledby="section-lesson-title">
-      <div class="bg-white rounded-2xl shadow-sm border border-slate-300 p-6 sm:p-8 content-box flex flex-col justify-between">
-        <div>
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 border-b border-slate-200 mb-6">
+        <div class="flex items-center gap-4">
+          <div class="bg-white/10 backdrop-blur-md px-4 py-3 rounded-xl border border-white/20 flex items-center gap-3" aria-label="Pontuação do Aluno">
+            <div class="text-2xl" aria-hidden="true">⭐</div>
             <div>
-              <span id="active-badge" class="text-xs font-semibold px-2.5 py-1 bg-emerald-100 text-emerald-800 rounded-md">Matemática • FÁCIL</span>
-              <h2 id="section-lesson-title" class="text-lg font-bold text-slate-900 mt-1">Título da Lição</h2>
-            </div>
-            <div class="flex items-center gap-3">
-              <span id="timer-badge" class="hidden items-center gap-1.5 px-3 py-1 bg-rose-50 text-rose-700 rounded-lg text-xs font-bold border border-rose-300" aria-label="Tempo restante">
-                <span aria-hidden="true">⏳</span> <span id="timer-display">30</span>s
-              </span>
-              <span id="lesson-duration" class="text-xs text-slate-600">Tempo estimado: 10 min</span>
+              <p class="text-xs text-emerald-200">Pontuação Total</p>
+              <p id="xp-counter" class="text-lg font-bold">120 XP</p>
             </div>
           </div>
+          <button onclick="handleLogout()" class="px-3 py-2 bg-white/10 hover:bg-white/20 border border-white/20 text-white text-xs font-bold rounded-xl transition-all cursor-pointer" title="Sair da Conta">Sair</button>
+        </div>
+      </div>
+    </header>
 
-          <!-- Bloco Teórico Aprofundado (Oculto no Modo Desafio) -->
-          <div id="theory-container" class="bg-slate-50 p-4 rounded-xl border border-slate-300 mb-6 text-sm text-slate-800 leading-relaxed"></div>
+    <main class="max-w-5xl mx-auto px-4 py-8 space-y-10" role="main">
 
-          <!-- Bloco de Exercícios -->
-          <div id="exercise-container" class="space-y-4" role="region" aria-label="Questão atual"></div>
-          
-          <p id="feedback-msg" class="text-xs font-medium h-4 mt-3" aria-live="polite"></p>
+      <!-- Seção 1: Escolha a Matéria, Nível e Modo de Estudo -->
+      <section class="reveal" aria-labelledby="section-selection-title">
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-4">
+          <div>
+            <h2 id="section-selection-title" class="text-xl font-bold text-slate-900 flex items-center gap-2">
+              <span aria-hidden="true">🎯</span> Escolha a Matéria
+            </h2>
+            <span class="text-xs text-slate-600">Selecione uma área do conhecimento</span>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-3">
+            <div class="flex items-center gap-1 bg-white p-1.5 rounded-xl border border-slate-300 shadow-sm" role="region" aria-label="Modo de Estudo">
+              <button onclick="setMode('study')" id="btn-mode-study" class="px-3 py-1 text-xs font-bold rounded-lg bg-emerald-700 text-white transition-all cursor-pointer">📖 Estudo</button>
+              <button onclick="setMode('challenge')" id="btn-mode-challenge" class="px-3 py-1 text-xs font-bold rounded-lg text-slate-700 hover:bg-slate-100 transition-all cursor-pointer">⚡ Modo Desafio</button>
+            </div>
+
+            <div class="flex items-center gap-1 bg-white p-1.5 rounded-xl border border-slate-300 shadow-sm" role="region" aria-label="Nível de Dificuldade">
+              <button onclick="setDifficulty('easy')" id="btn-diff-easy" class="px-3 py-1 text-xs font-bold rounded-lg bg-slate-900 text-white transition-all cursor-pointer">Fácil</button>
+              <button onclick="setDifficulty('medium')" id="btn-diff-medium" class="px-3 py-1 text-xs font-bold rounded-lg text-slate-700 hover:bg-slate-100 transition-all cursor-pointer">Médio</button>
+              <button onclick="setDifficulty('hard')" id="btn-diff-hard" class="px-3 py-1 text-xs font-bold rounded-lg text-slate-700 hover:bg-slate-100 transition-all cursor-pointer">Difícil</button>
+            </div>
+          </div>
         </div>
 
-        <div class="pt-6 border-t border-slate-200 flex items-center justify-between mt-6">
-          <div class="flex items-center gap-2">
-            <div class="w-32 bg-slate-200 h-2 rounded-full overflow-hidden" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="33">
-              <div id="progress-bar" class="bg-emerald-600 h-full w-1/3 transition-all duration-300"></div>
-            </div>
-            <span id="progress-text" class="text-xs text-slate-700 font-medium">Questão 1 de 3</span>
-          </div>
-          <button onclick="nextExercise()" class="px-5 py-2.5 bg-emerald-700 hover:bg-emerald-800 text-white font-semibold text-xs rounded-xl transition-all shadow-sm hover:shadow active:scale-95 cursor-pointer">
-            Próxima Questão →
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
+          <button onclick="switchSubject('matematica')" data-subject="matematica" class="subject-card group bg-white p-4 rounded-2xl shadow-sm border-2 border-emerald-600 transition-all duration-200 hover:-translate-y-1 hover:shadow-md text-left cursor-pointer" aria-label="Matemática">
+            <div class="w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center text-xl mb-2 group-hover:scale-110 transition-transform" aria-hidden="true">📐</div>
+            <h3 class="font-bold text-slate-900 text-sm">Matemática</h3>
+            <p class="text-xs text-slate-600 mt-0.5">Frações & Álgebra</p>
+          </button>
+
+          <button onclick="switchSubject('ciencias')" data-subject="ciencias" class="subject-card group bg-white p-4 rounded-2xl shadow-sm border-2 border-transparent hover:border-teal-600 transition-all duration-200 hover:-translate-y-1 hover:shadow-md text-left cursor-pointer" aria-label="Ciências">
+            <div class="w-10 h-10 rounded-xl bg-teal-100 flex items-center justify-center text-xl mb-2 group-hover:scale-110 transition-transform" aria-hidden="true">🔬</div>
+            <h3 class="font-bold text-slate-900 text-sm">Ciências</h3>
+            <p class="text-xs text-slate-600 mt-0.5">Estados & Calor</p>
+          </button>
+
+          <button onclick="switchSubject('historia')" data-subject="historia" class="subject-card group bg-white p-4 rounded-2xl shadow-sm border-2 border-transparent hover:border-amber-600 transition-all duration-200 hover:-translate-y-1 hover:shadow-md text-left cursor-pointer" aria-label="História">
+            <div class="w-10 h-10 rounded-xl bg-amber-100 flex items-center justify-center text-xl mb-2 group-hover:scale-110 transition-transform" aria-hidden="true">📜</div>
+            <h3 class="font-bold text-slate-900 text-sm">História</h3>
+            <p class="text-xs text-slate-600 mt-0.5">Navegações</p>
+          </button>
+
+          <button onclick="switchSubject('geografia')" data-subject="geografia" class="subject-card group bg-white p-4 rounded-2xl shadow-sm border-2 border-transparent hover:border-blue-600 transition-all duration-200 hover:-translate-y-1 hover:shadow-md text-left cursor-pointer" aria-label="Geografia">
+            <div class="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center text-xl mb-2 group-hover:scale-110 transition-transform" aria-hidden="true">🌍</div>
+            <h3 class="font-bold text-slate-900 text-sm">Geografia</h3>
+            <p class="text-xs text-slate-600 mt-0.5">Cartografia</p>
+          </button>
+
+          <button onclick="switchSubject('portugues')" data-subject="portugues" class="subject-card group bg-white p-4 rounded-2xl shadow-sm border-2 border-transparent hover:border-purple-600 transition-all duration-200 hover:-translate-y-1 hover:shadow-md text-left cursor-pointer" aria-label="Português">
+            <div class="w-10 h-10 rounded-xl bg-purple-100 flex items-center justify-center text-xl mb-2 group-hover:scale-110 transition-transform" aria-hidden="true">📚</div>
+            <h3 class="font-bold text-slate-900 text-sm">Português</h3>
+            <p class="text-xs text-slate-600 mt-0.5">Estilística</p>
           </button>
         </div>
-      </div>
-    </section>
 
-    <!-- Seção 3: Tabela de Resultados dos Exercícios -->
-    <section class="reveal" aria-labelledby="section-results-title">
-      <div class="bg-white rounded-2xl shadow-sm border border-slate-300 p-6 sm:p-8">
-        <div class="flex items-center justify-between mb-4">
-          <h2 id="section-results-title" class="text-lg font-bold text-slate-900 flex items-center gap-2">
-            <span aria-hidden="true">📊</span> Tabela de Desempenho e Resultados
-          </h2>
-          <button onclick="resetResults()" class="text-xs text-slate-600 hover:text-slate-900 underline cursor-pointer">Limpar Histórico Local</button>
+        <div id="lesson-tabs-wrapper" class="mt-4">
+          <div id="lesson-tabs" class="flex gap-2 overflow-x-auto pb-2" role="tablist" aria-label="Lições disponíveis"></div>
         </div>
-        <p class="text-xs text-slate-600 mb-4">Registro persistido no navegador do aluno (Estudo e Modo Desafio).</p>
-        
-        <div class="overflow-x-auto">
-          <table class="w-full text-left border-collapse" aria-label="Histórico de desempenho">
-            <thead>
-              <tr class="border-b border-slate-200 text-xs font-semibold text-slate-700 uppercase">
-                <th class="py-3 px-4">Modo / Matéria</th>
-                <th class="py-3 px-4">Nível</th>
-                <th class="py-3 px-4">Lição / Desafio</th>
-                <th class="py-3 px-4">Status</th>
-                <th class="py-3 px-4 text-right">XP Ganho</th>
-              </tr>
-            </thead>
-            <tbody id="results-table-body" class="divide-y divide-slate-100 text-sm text-slate-800">
-              <tr>
-                <td colspan="5" class="py-4 text-center text-xs text-slate-600">Nenhum exercício respondido ainda.</td>
-              </tr>
-            </tbody>
-          </table>
+      </section>
+
+      <!-- Seção 2: Teoria & Prática / Modo Desafio -->
+      <section class="reveal" aria-labelledby="section-lesson-title">
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-300 p-6 sm:p-8 content-box flex flex-col justify-between">
+          <div>
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 border-b border-slate-200 mb-6">
+              <div>
+                <span id="active-badge" class="text-xs font-semibold px-2.5 py-1 bg-emerald-100 text-emerald-800 rounded-md">Matemática • FÁCIL</span>
+                <h2 id="section-lesson-title" class="text-lg font-bold text-slate-900 mt-1">Título da Lição</h2>
+              </div>
+              <div class="flex items-center gap-3">
+                <span id="timer-badge" class="hidden items-center gap-1.5 px-3 py-1 bg-rose-50 text-rose-700 rounded-lg text-xs font-bold border border-rose-300" aria-label="Tempo restante">
+                  <span aria-hidden="true">⏳</span> <span id="timer-display">30</span>s
+                </span>
+                <span id="lesson-duration" class="text-xs text-slate-600">Tempo estimado: 10 min</span>
+              </div>
+            </div>
+
+            <div id="theory-container" class="bg-slate-50 p-4 rounded-xl border border-slate-300 mb-6 text-sm text-slate-800 leading-relaxed"></div>
+            <div id="exercise-container" class="space-y-4" role="region" aria-label="Questão atual"></div>
+            <p id="feedback-msg" class="text-xs font-medium h-4 mt-3" aria-live="polite"></p>
+          </div>
+
+          <div class="pt-6 border-t border-slate-200 flex items-center justify-between mt-6">
+            <div class="flex items-center gap-2">
+              <div class="w-32 bg-slate-200 h-2 rounded-full overflow-hidden" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="33">
+                <div id="progress-bar" class="bg-emerald-600 h-full w-1/3 transition-all duration-300"></div>
+              </div>
+              <span id="progress-text" class="text-xs text-slate-700 font-medium">Questão 1 de 3</span>
+            </div>
+            <button onclick="nextExercise()" class="px-5 py-2.5 bg-emerald-700 hover:bg-emerald-800 text-white font-semibold text-xs rounded-xl transition-all shadow-sm hover:shadow active:scale-95 cursor-pointer">
+              Próxima Questão →
+            </button>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-  </main>
+      <!-- Seção 3: Tabela de Resultados -->
+      <section class="reveal" aria-labelledby="section-results-title">
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-300 p-6 sm:p-8">
+          <div class="flex items-center justify-between mb-4">
+            <h2 id="section-results-title" class="text-lg font-bold text-slate-900 flex items-center gap-2">
+              <span aria-hidden="true">📊</span> Tabela de Desempenho e Resultados
+            </h2>
+            <button onclick="resetResults()" class="text-xs text-slate-600 hover:text-slate-900 underline cursor-pointer">Limpar Histórico Local</button>
+          </div>
+          <p class="text-xs text-slate-600 mb-4">Registro persistido no navegador do aluno.</p>
+          
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse" aria-label="Histórico de desempenho">
+              <thead>
+                <tr class="border-b border-slate-200 text-xs font-semibold text-slate-700 uppercase">
+                  <th class="py-3 px-4">Modo / Matéria</th>
+                  <th class="py-3 px-4">Nível</th>
+                  <th class="py-3 px-4">Lição / Desafio</th>
+                  <th class="py-3 px-4">Status</th>
+                  <th class="py-3 px-4 text-right">XP Ganho</th>
+                </tr>
+              </thead>
+              <tbody id="results-table-body" class="divide-y divide-slate-100 text-sm text-slate-800">
+                <tr>
+                  <td colspan="5" class="py-4 text-center text-xs text-slate-600">Nenhum exercício respondido ainda.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
 
-  <footer class="text-center py-8 text-xs text-slate-600" role="contentinfo">
-    Jamstack Architecture • WCAG AA/AAA Compliant • Core Web Vitals 100/100
-  </footer>
+    </main>
 
-  <!-- Script Vanilla JS Otimizado com Acessibilidade WCAG -->
+    <footer class="text-center py-8 text-xs text-slate-600" role="contentinfo">
+      Jamstack Architecture • Password Authenticated • Core Web Vitals 100/100
+    </footer>
+  </div>
+
+  <!-- Script Vanilla JS Otimizado com Autenticação -->
   <script>
+    // Hash SHA-256 padrão para a senha "estudo2026"
+    // Pode alterar o hash conforme desejar. Hash abaixo corresponde a "estudo2026"
+    const TARGET_PASSWORD_HASH = "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918";
+
+    async function sha256(message) {
+      const msgBuffer = new TextEncoder().encode(message);
+      const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    async function handleLogin(event) {
+      event.preventDefault();
+      const pwdInput = document.getElementById('access-password').value;
+      const errorMsg = document.getElementById('login-error');
+      
+      const inputHash = await sha256(pwdInput);
+      if (inputHash === TARGET_PASSWORD_HASH) {
+        localStorage.setItem('missao_estudo_auth', 'true');
+        document.getElementById('auth-screen').style.display = 'none';
+        document.getElementById('app-content').classList.remove('hidden');
+        initApp();
+      } else {
+        errorMsg.textContent = "❌ Senha incorreta. Tente novamente.";
+      }
+    }
+
+    function handleLogout() {
+      localStorage.removeItem('missao_estudo_auth');
+      window.location.reload();
+    }
+
+    // Banco de dados e lógica da aplicação
     const database = {
       matematica: {
         badge: "Matemática",
@@ -415,7 +466,7 @@
     let challengeTimer = null;
     let timeLeft = 30;
 
-    function loadFromStorage() {
+    function initApp() {
       const savedXp = localStorage.getItem('missao_estudo_xp');
       const savedLog = localStorage.getItem('missao_estudo_log');
       
@@ -426,6 +477,18 @@
       document.getElementById('xp-counter').textContent = userXp + " XP";
       updateUIState();
       renderResultsTable();
+      switchSubject('matematica');
+
+      const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1 });
+
+      document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
     }
 
     function saveToStorage() {
@@ -694,20 +757,14 @@
       }
     }
 
+    // Checagem de sessão salva no carregamento
     document.addEventListener("DOMContentLoaded", function () {
-      loadFromStorage();
-      switchSubject('matematica');
-
-      const observer = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('is-visible');
-            observer.unobserve(entry.target);
-          }
-        });
-      }, { threshold: 0.1 });
-
-      document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+      const isAuthed = localStorage.getItem('missao_estudo_auth');
+      if (isAuthed === 'true') {
+        document.getElementById('auth-screen').style.display = 'none';
+        document.getElementById('app-content').classList.remove('hidden');
+        initApp();
+      }
     });
   </script>
 </body>

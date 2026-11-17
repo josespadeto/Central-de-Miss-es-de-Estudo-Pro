@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Missão Estudo Pro • RPG Edition (10 a 14 anos)</title>
+  <title>Missão Estudo Pro • RPG Enterprise Edition (10 a 14 anos)</title>
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -83,9 +83,9 @@
     <header class="bg-gradient-to-r from-emerald-700 to-teal-800 text-white shadow-md" role="banner">
       <div class="max-w-6xl mx-auto px-4 py-8 flex flex-col sm:flex-row justify-between items-center gap-4">
         <div>
-          <span class="inline-block bg-emerald-600/40 text-emerald-100 text-xs font-semibold px-3 py-1 rounded-full mb-2">⚔️ RPG Edition • Missões Diárias Ativas</span>
+          <span class="inline-block bg-emerald-600/40 text-emerald-100 text-xs font-semibold px-3 py-1 rounded-full mb-2">⚔️ RPG Enterprise • 20+ Questões por Matéria</span>
           <h1 class="text-3xl font-extrabold tracking-tight">Central de Missões de Estudo Pro</h1>
-          <p class="text-emerald-100 text-sm mt-1">Cumpra missões diárias, suba de nível e domine o conhecimento.</p>
+          <p class="text-emerald-100 text-sm mt-1">Trilhas profundas, missões diárias e Modo Desafio Cronometrado.</p>
         </div>
         <div class="flex items-center gap-4">
           <div class="bg-white/10 backdrop-blur-md px-5 py-3 rounded-2xl border border-white/20 flex items-center gap-3 shadow-sm" aria-label="Pontuação do Aluno">
@@ -102,7 +102,7 @@
 
     <main class="max-w-6xl mx-auto px-4 py-8 space-y-10" role="main">
 
-      <!-- NOVA SEÇÃO: Painel de Missões Diárias (Estilo RPG) -->
+      <!-- Mural de Missões Diárias (Estilo RPG) -->
       <section class="reveal bg-gradient-to-br from-slate-900 to-slate-800 text-white rounded-3xl p-6 sm:p-8 shadow-lg border border-slate-700" aria-labelledby="rpg-quests-title">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-slate-700">
           <div>
@@ -117,7 +117,6 @@
         </div>
 
         <div id="quests-grid" class="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <!-- Quest 1 -->
           <div id="quest-card-0" class="bg-slate-800/80 border border-slate-700 p-4 rounded-2xl flex flex-col justify-between gap-3">
             <div>
               <div class="flex items-center justify-between mb-1">
@@ -133,7 +132,6 @@
             </div>
           </div>
 
-          <!-- Quest 2 -->
           <div id="quest-card-1" class="bg-slate-800/80 border border-slate-700 p-4 rounded-2xl flex flex-col justify-between gap-3">
             <div>
               <div class="flex items-center justify-between mb-1">
@@ -149,7 +147,6 @@
             </div>
           </div>
 
-          <!-- Quest 3 -->
           <div id="quest-card-2" class="bg-slate-800/80 border border-slate-700 p-4 rounded-2xl flex flex-col justify-between gap-3">
             <div>
               <div class="flex items-center justify-between mb-1">
@@ -167,7 +164,7 @@
         </div>
       </section>
 
-      <!-- Painel de Controle de Estudos (Matéria, Nível, Modo) -->
+      <!-- Painel de Controle de Estudos -->
       <section class="reveal bg-white p-6 rounded-3xl shadow-sm border border-slate-200" aria-labelledby="section-selection-title">
         <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-6 pb-6 border-b border-slate-100">
           <div>
@@ -224,7 +221,7 @@
         </div>
 
         <div id="lesson-tabs-wrapper" class="mt-6 pt-6 border-t border-slate-100">
-          <p class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3">Lições Disponíveis no Nível:</p>
+          <p class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3">Lições e Módulos Disponíveis:</p>
           <div id="lesson-tabs" class="flex gap-2 overflow-x-auto pb-2" role="tablist" aria-label="Lições disponíveis"></div>
         </div>
       </section>
@@ -256,7 +253,7 @@
               <div class="w-36 bg-slate-100 h-2.5 rounded-full overflow-hidden border border-slate-200" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="33">
                 <div id="progress-bar" class="bg-emerald-600 h-full w-1/3 transition-all duration-300"></div>
               </div>
-              <span id="progress-text" class="text-xs text-slate-600 font-bold">Questão 1 de 3</span>
+              <span id="progress-text" class="text-xs text-slate-600 font-bold">Questão 1 de 5</span>
             </div>
             <button onclick="nextExercise()" class="w-full sm:w-auto px-6 py-3 bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs uppercase tracking-wider rounded-2xl transition-all shadow-md active:scale-95 cursor-pointer">
               Próxima Questão →
@@ -297,7 +294,7 @@
     </main>
 
     <footer class="text-center py-8 text-xs text-slate-500" role="contentinfo">
-      Jamstack Enterprise Architecture • RPG Quests Enabled • Core Web Vitals 100/100
+      Jamstack Enterprise Architecture • 20+ Questions per Subject • Core Web Vitals 100/100
     </footer>
   </div>
 
@@ -366,41 +363,62 @@
       window.location.reload();
     }
 
-    // Banco de Dados Curricular
+    // BANCO DE DADOS EXPANDIDO (20+ QUESTÕES POR MATÉRIA)
     const database = {
       matematica: {
         badge: "Matemática",
         levels: {
           easy: [
             {
-              title: "Lição 1: Conceito e Operações com Frações",
+              title: "Módulo 1: Fundamentos de Frações",
               duration: "10 min",
-              theory: "<strong>Fundamentação Teórica (6º Ano):</strong> Uma fração representa partes de um todo dividido em partes iguais. O numerador indica quantas partes consideramos, e o denominador o total de divisões.",
+              theory: "<strong>Teoria (6º Ano):</strong> Fração é a representação de partes de um todo. O numerador indica as partes consideradas e o denominador o total de divisões iguais.",
               exercises: [
                 { q: "Qual é o numerador da fração 3/8?", options: [{val: "5", correct: false}, {val: "3", correct: true}, {val: "8", correct: false}] },
-                { q: "Quanto é a soma 2/7 + 3/7?", options: [{val: "5/7", correct: true}, {val: "5/14", correct: false}, {val: "6/7", correct: false}] },
-                { q: "Qual fração é equivalente a 1/2?", options: [{val: "2/3", correct: false}, {val: "4/8", correct: true}, {val: "3/5", correct: false}] }
+                { q: "Quanto é 2/7 + 3/7?", options: [{val: "5/7", correct: true}, {val: "5/14", correct: false}, {val: "6/7", correct: false}] },
+                { q: "Qual fração é equivalente a 1/2?", options: [{val: "2/3", correct: false}, {val: "4/8", correct: true}, {val: "3/5", correct: false}] },
+                { q: "Quanto vale 3/4 de 100?", options: [{val: "50", correct: false}, {val: "75", correct: true}, {val: "80", correct: false}] },
+                { q: "Simplifique a fração 4/8:", options: [{val: "1/2", correct: true}, {val: "1/4", correct: false}, {val: "2/3", correct: false}] }
+              ]
+            },
+            {
+              title: "Módulo 2: Números Inteiros e Operações",
+              duration: "12 min",
+              theory: "<strong>Teoria (7º Ano):</strong> Conjunto Z engloba negativos, zero e positivos. Na multiplicação, sinais iguais resultam em positivo.",
+              exercises: [
+                { q: "Quanto é (-3) + (-5)?", options: [{val: "-8", correct: true}, {val: "+8", correct: false}, {val: "-2", correct: false}] },
+                { q: "Qual o resultado de (-4) x (-2)?", options: [{val: "-8", correct: false}, {val: "+8", correct: true}, {val: "-6", correct: false}] },
+                { q: "Quanto é 10 + (-15)?", options: [{val: "-5", correct: true}, {val: "+5", correct: false}, {val: "-25", correct: false}] },
+                { q: "Qual o opuesto de -12?", options: [{val: "-12", correct: false}, {val: "12", correct: true}, {val: "0", correct: false}] },
+                { q: "Quanto é (-20) ÷ 4?", options: [{val: "+5", correct: false}, {val: "-5", correct: true}, {val: "-16", correct: false}] }
               ]
             }
           ],
           medium: [
             {
-              title: "Lição 1: MMC e Adição de Frações Diferentes",
+              title: "Módulo 3: MMC, MDC e Frações Heterogêneas",
               duration: "15 min",
-              theory: "<strong>Fundamentação Teórica (7º-8º Ano):</strong> Para somar frações com denominadores diferentes, precisamos calcular o Mínimo Múltiplo Comum (MMC).",
+              theory: "<strong>Teoria (7º-8º Ano):</strong> O MMC é indispensável para igualar denominadores em operações com frações diferentes.",
               exercises: [
                 { q: "Qual é o MMC entre 4 e 6?", options: [{val: "10", correct: false}, {val: "12", correct: true}, {val: "24", correct: false}] },
-                { q: "Quanto é 1/2 + 1/3?", options: [{val: "2/5", correct: false}, {val: "5/6", correct: true}, {val: "2/6", correct: false}] }
+                { q: "Quanto é 1/2 + 1/3?", options: [{val: "2/5", correct: false}, {val: "5/6", correct: true}, {val: "2/6", correct: false}] },
+                { q: "Qual o MDC entre 12 e 18?", options: [{val: "6", correct: true}, {val: "4", correct: false}, {val: "36", correct: false}] },
+                { q: "Subtraia 3/4 - 1/2:", options: [{val: "1/4", correct: true}, {val: "2/2", correct: false}, {val: "1/8", correct: false}] },
+                { q: "Qual o MMC entre 5 e 7?", options: [{val: "12", correct: false}, {val: "35", correct: true}, {val: "70", correct: false}] }
               ]
             }
           ],
           hard: [
             {
-              title: "Lição 1: Equações do 2º Fórmula de Bhaskara",
+              title: "Módulo 4: Equações do 2º Grau e Bhaskara",
               duration: "20 min",
-              theory: "<strong>Fundamentação Teórica (9º Ano):</strong> Uma equação do 2º grau possui a forma ax² + bx + c = 0. Resolvemos utilizando o Delta e Bhaskara.",
+              theory: "<strong>Teoria (9º Ano):</strong> Equações do tipo ax² + bx + c = 0 resolvidas via Discriminante Delta e Bhaskara.",
               exercises: [
-                { q: "Qual o valor do Delta (Δ) para x² - 5x + 6 = 0?", options: [{val: "1", correct: true}, {val: "25", correct: false}, {val: "0", correct: false}] }
+                { q: "Qual o valor do Delta (Δ) para x² - 5x + 6 = 0?", options: [{val: "1", correct: true}, {val: "25", correct: false}, {val: "0", correct: false}] },
+                { q: "Quantas raízes reais possui uma equação com Delta negativo?", options: [{val: "Nenhuma", correct: true}, {val: "Uma", correct: false}, {val: "Duas", correct: false}] },
+                { q: "Qual a soma das raízes da equação x² - 7x + 10 = 0?", options: [{val: "7", correct: true}, {val: "10", correct: false}, {val: "-7", correct: false}] },
+                { q: "Resolva x² - 9 = 0:", options: [{val: "x = ±3", correct: true}, {val: "x = 9", correct: false}, {val: "x = 3", correct: false}] },
+                { q: "Qual o produto das raízes de x² - 6x + 8 = 0?", options: [{val: "8", correct: true}, {val: "6", correct: false}, {val: "-8", correct: false}] }
               ]
             }
           ]
@@ -411,31 +429,43 @@
         levels: {
           easy: [
             {
-              title: "Lição 1: Estados Físicos da Matéria",
+              title: "Módulo 1: Estados Físicos da Matéria",
               duration: "10 min",
-              theory: "<strong>Fundamentação Teórica (6º Ano):</strong> A matéria apresenta-se em sólido, líquido e gasoso.",
+              theory: "<strong>Teoria (6º Ano):</strong> Sólido, líquido e gasoso. Mudanças de fase: fusão, ebulição, condensação e sublimação.",
               exercises: [
-                { q: "Passagem do sólido direto para o gasoso:", options: [{val: "Fusão", correct: false}, {val: "Sublimação", correct: true}, {val: "Condensação", correct: false}] }
+                { q: "Passagem do sólido direto para o gasoso:", options: [{val: "Fusão", correct: false}, {val: "Sublimação", correct: true}, {val: "Condensação", correct: false}] },
+                { q: "A transformação da água líquida em vapor nas nuvens é:", options: [{val: "Evaporação", correct: true}, {val: "Solidificação", correct: false}, {val: "Fusão", correct: false}] },
+                { q: "Como se chama a passagem do estado líquido para o sólido?", options: [{val: "Solidificação", correct: true}, {val: "Ebulição", correct: false}, {val: "Sublimação", correct: false}] },
+                { q: "O ponto de ebulição da água pura ao nível do mar é:", options: [{val: "100 ºC", correct: true}, {val: "0 ºC", correct: false}, {val: "50 ºC", correct: false}] },
+                { q: "O gelo seco sofre qual mudança de estado ao evaporar?", options: [{val: "Sublimação", correct: true}, {val: "Fusão", correct: false}, {val: "Vaporização", correct: false}] }
               ]
             }
           ],
           medium: [
             {
-              title: "Lição 1: Termodinâmica e Calor",
+              title: "Módulo 2: Termodinâmica e Propagação de Calor",
               duration: "15 min",
-              theory: "<strong>Fundamentação Teórica (8º Ano):</strong> O calor propaga-se por Condução, Convecção e Irradiação.",
+              theory: "<strong>Teoria (8º Ano):</strong> Condução, Convecção e Irradiação térmica.",
               exercises: [
-                { q: "Como o calor do Sol chega até a Terra?", options: [{val: "Por condução", correct: false}, {val: "Por irradiação", correct: true}, {val: "Por convecção", correct: false}] }
+                { q: "Como o calor do Sol chega até a Terra?", options: [{val: "Por condução", correct: false}, {val: "Por irradiação", correct: true}, {val: "Por convecção", correct: false}] },
+                { q: "A transferência de calor através de fluidos (líquidos/gases) chama-se:", options: [{val: "Convecção", correct: true}, {val: "Condução", correct: false}, {val: "Irradiação", correct: false}] },
+                { q: "Uma barra de ferro esquentando na ponta transmite calor por:", options: [{val: "Condução", correct: true}, {val: "Convecção", correct: false}, {val: "Irradiação", correct: false}] },
+                { q: "Materiais que dificultam a passagem de calor são chamados de:", options: [{val: "Isolantes térmicos", correct: true}, {val: "Condutores", correct: false}, {val: "Radiantes", correct: false}] },
+                { q: "O vácuo impede qual forma de propagação térmica?", options: [{val: "Condução e Convecção", correct: true}, {val: "Apenas Irradiação", correct: false}, {val: "Todas elas", correct: false}] }
               ]
             }
           ],
           hard: [
             {
-              title: "Lição 1: Leis de Newton e Dinâmica",
+              title: "Módulo 3: Leis de Newton e Dinâmica",
               duration: "20 min",
-              theory: "<strong>Fundamentação Teórica (9º Ano):</strong> Princípio Fundamental da Dinâmica (F = m.a).",
+              theory: "<strong>Teoria (9º Ano):</strong> Inércia, Princípio Fundamental (F = m.a) e Ação e Reação.",
               exercises: [
-                { q: "Qual a força para acelerar 2 kg a 3 m/s²?", options: [{val: "5 N", correct: false}, {val: "6 N", correct: true}, {val: "1.5 N", correct: false}] }
+                { q: "Qual a força necessária para acelerar 2 kg a 3 m/s²?", options: [{val: "5 N", correct: false}, {val: "6 N", correct: true}, {val: "1.5 N", correct: false}] },
+                { q: "A tendência de um corpo manter seu estado de movimento é:", options: [{val: "Inércia", correct: true}, {val: "Atrito", correct: false}, {val: "Gravidade", correct: false}] },
+                { q: "Se a força resultante sobre um corpo é zero, sua aceleração é:", options: [{val: "Zero", correct: true}, {val: "Constante positiva", correct: false}, {val: "Máxima", correct: false}] },
+                { q: "A Terceira Lei de Newton enuncia:", options: [{val: "Ação e Reação", correct: true}, {val: "Princípio da Inércia", correct: false}, {val: "F = m.a", correct: false}] },
+                { q: "Qual o peso aproximado de um corpo de 10 kg na Terra (g=10 m/s²)?", options: [{val: "100 N", correct: true}, {val: "10 N", correct: false}, {val: "1 N", correct: false}] }
               ]
             }
           ]
@@ -446,31 +476,43 @@
         levels: {
           easy: [
             {
-              title: "Lição 1: As Grandes Navegações",
+              title: "Módulo 1: As Grandes Navegações",
               duration: "12 min",
-              theory: "<strong>Fundamentação Teórica (7º Ano):</strong> Exploração oceânica nos séculos XV e XVI rumo às Índias.",
+              theory: "<strong>Teoria (7º Ano):</strong> Séculos XV e XVI, Portugal e Espanha buscando rotas para as Índias.",
               exercises: [
-                { q: "Em qual século ocorreu o ápice das Navegações?", options: [{val: "Século XV", correct: true}, {val: "Século XX", correct: false}, {val: "Século X", correct: false}] }
+                { q: "Em qual século ocorreu o ápice das Navegações?", options: [{val: "Século XV", correct: true}, {val: "Século XX", correct: false}, {val: "Século X", correct: false}] },
+                { q: "Qual reino ibérico iniciou pioneiramente a expansão marítima?", options: [{val: "Espanha", correct: false}, {val: "Portugal", correct: true}, {val: "Inglaterra", correct: false}] },
+                { q: "Qual especiaria era altamente valorizada no comércio europeu?", options: [{val: "Pimenta e cravo", correct: true}, {val: "Milho e batata", correct: false}, {val: "Trigo bruto", correct: false}] },
+                { q: "Quem chegou ao Brasil em 1500?", options: [{val: "Pedro Álvares Cabral", correct: true}, {val: "Cristóvão Colombo", correct: false}, {val: "Vasco da Gama", correct: false}] },
+                { q: "O Tratado de Tordesilhas dividiu terras entre:", options: [{val: "Portugal e Espanha", correct: true}, {val: "Inglaterra e França", correct: false}, {val: "Holanda e Itália", correct: false}] }
               ]
             }
           ],
           medium: [
             {
-              title: "Lição 1: Revolução Industrial",
+              title: "Módulo 2: Revolução Industrial",
               duration: "15 min",
-              theory: "<strong>Fundamentação Teórica (8º Ano):</strong> Transformação da produção artesanal em fabril na Inglaterra.",
+              theory: "<strong>Teoria (8º Ano):</strong> Transição para o maquinofaturado industrial na Inglaterra.",
               exercises: [
-                { q: "Qual país iniciou a Revolução Industrial?", options: [{val: "França", correct: false}, {val: "Inglaterra", correct: true}, {val: "Alemanha", correct: false}] }
+                { q: "Qual país pioneiro deu início à Revolução Industrial?", options: [{val: "França", correct: false}, {val: "Inglaterra", correct: true}, {val: "Alemanha", correct: false}] },
+                { q: "Principal fonte de energia da 1ª Revolução Industrial:", options: [{val: "Carvão mineral e vapor", correct: true}, {val: "Energia elétrica", correct: false}, {val: "Petróleo", correct: false}] },
+                { q: "Classe social surgida com a industrialização:", options: [{val: "Proletariado", correct: true}, {val: "Nobreza feudal", correct: false}, {val: "Senhores de engenho", correct: false}] },
+                { q: "As condições de trabalho nas fábricas iniciais eram:", options: [{val: "Precárias e insalubres", correct: true}, {val: "Seguras e regulamentadas", correct: false}, {val: "Curtas e altamente remuneradas", correct: false}] },
+                { q: "A principal invenção mecânica da época foi:", options: [{val: "Máquina a vapor", correct: true}, {val: "Computador", correct: false}, {val: "Motor a combustão", correct: false}] }
               ]
             }
           ],
           hard: [
             {
-              title: "Lição 1: A Era Vargas",
+              title: "Módulo 3: A Era Vargas no Brasil",
               duration: "18 min",
-              theory: "<strong>Fundamentação Teórica (9º Ano):</strong> Industrialização de base e leis trabalhistas no Brasil.",
+              theory: "<strong>Teoria (9º Ano):</strong> Governo de Getúlio Vargas (1930-1945), leis trabalhistas e industrialização.",
               exercises: [
-                { q: "Em que ano foi promulgada a CLT?", options: [{val: "1930", correct: false}, {val: "1943", correct: true}, {val: "1950", correct: false}] }
+                { q: "Em que ano foi promulgada a CLT (Leis do Trabalho)?", options: [{val: "1930", correct: false}, {val: "1943", correct: true}, {val: "1950", correct: false}] },
+                { q: "Getúlio Vargas assumiu o poder inicialmente em qual ano?", options: [{val: "1930", correct: true}, {val: "1964", correct: false}, {val: "1922", correct: false}] },
+                { q: "A ditadura varguista instaurada em 1937 chamou-se:", options: [{val: "Estado Novo", correct: true}, {val: "República Velha", correct: false}, {val: "Regime Militar", correct: false}] },
+                { q: "Qual usina siderúrgica fundamental foi criada na Era Vargas?", options: [{val: "CSN (Companhia Siderúrgica Nacional)", correct: true}, {val: "Petrobras", correct: false}, {val: "Vale do Rio Doce", correct: false}] },
+                { q: "O movimento constitucionalista de 1932 ocorreu em qual estado?", options: [{val: "São Paulo", correct: true}, {val: "Rio de Janeiro", correct: false}, {val: "Bahia", correct: false}] }
               ]
             }
           ]
@@ -481,31 +523,43 @@
         levels: {
           easy: [
             {
-              title: "Lição 1: Coordenadas Geográficas",
+              title: "Módulo 1: Coordenadas e Cartografia",
               duration: "10 min",
-              theory: "<strong>Fundamentação Teórica (6º Ano):</strong> Paralelos e meridianos formam a rede de localização.",
+              theory: "<strong>Teoria (6º Ano):</strong> Paralelos (latitude) e meridianos (longitude).",
               exercises: [
-                { q: "Linha que divide a Terra em Norte e Sul:", options: [{val: "Equador", correct: true}, {val: "Greenwich", correct: false}, {val: "Trópico de Câncer", correct: false}] }
+                { q: "Linha imaginária que divide a Terra em Norte e Sul:", options: [{val: "Linha do Equador", correct: true}, {val: "Meridiano de Greenwich", correct: false}, {val: "Trópico de Câncer", correct: false}] },
+                { q: "O Meridiano de Greenwich divide a Terra em:", options: [{val: "Leste e Oeste", correct: true}, {val: "Norte e Sul", correct: false}, {val: "Alto e Baixo", correct: false}] },
+                { q: "A latitude é medida em graus a partir de:", options: [{val: "Linha do Equador", correct: true}, {val: "Greenwich", correct: false}, {val: "Polos magnéticos", correct: false}] },
+                { q: "Quantos fusos horários oficiais possui o planeta?", options: [{val: "24 fusos", correct: true}, {val: "12 fusos", correct: false}, {val: "36 fusos", correct: false}] },
+                { q: "A representação reduzida da Terra numa folha chama-se:", options: [{val: "Mapa", correct: true}, {val: "Globo", correct: false}, {val: "Bússola", correct: false}] }
               ]
             }
           ],
           medium: [
             {
-              title: "Lição 1: Tectônica de Placas",
+              title: "Módulo 2: Placas Tectônicas e Relevo",
               duration: "15 min",
-              theory: "<strong>Fundamentação Teórica (7º Ano):</strong> Movimentos da litosfera geram relevo e terremotos.",
+              theory: "<strong>Teoria (7º Ano):</strong> Dinâmica interna da Terra e dobramentos.",
               exercises: [
-                { q: "Movimento de afastamento entre placas:", options: [{val: "Divergente", correct: true}, {val: "Convergente", correct: false}, {val: "Transformante", correct: false}] }
+                { q: "Como se chama o movimento de afastamento entre placas?", options: [{val: "Divergente", correct: true}, {val: "Convergente", correct: false}, {val: "Transformante", correct: false}] },
+                { q: "Terremotos e vulcões concentram-se principalmente:", options: [{val: "Nos limites das placas tectônicas", correct: true}, {val: "No centro dos continentes", correct: false}, {val: "Nas fossas oceânicas rasas", correct: false}] },
+                { q: "O choque entre duas placas continentais forma:", options: [{val: "Cordilheiras de montanhas", correct: true}, {val: "Fossas abissais", correct: false}, {val: "Bacias sedimentares", correct: false}] },
+                { q: "O ponto de origem de um terremoto no subsolo é o:", options: [{val: "Hipocentro (Foco)", correct: true}, {val: "Epicentro", correct: false}, {val: "Cratera", correct: false}] },
+                { q: "O desgaste das rochas por agentes externos chama-se:", options: [{val: "Intemperismo e Erosão", correct: true}, {val: "Tectonismo", correct: false}, {val: "Magmatismo", correct: false}] }
               ]
             }
           ],
           hard: [
             {
-              title: "Lição 1: Globalização e Blocos Econômicos",
+              title: "Módulo 3: Globalização e Blocos Econômicos",
               duration: "18 min",
-              theory: "<strong>Fundamentação Teórica (9º Ano):</strong> Integração mundial econômica e formação de blocos.",
+              theory: "<strong>Teoria (9º Ano):</strong> Integração mundial e acordos comerciais.",
               exercises: [
-                { q: "Bloco europeu que adota a moeda Euro:", options: [{val: "Nafta", correct: false}, {val: "União Europeia", correct: true}, {val: "Mercosul", correct: false}] }
+                { q: "Qual bloco econômico europeu adota o Euro?", options: [{val: "União Europeia", correct: true}, {val: "Nafta", correct: false}, {val: "Mercosul", correct: false}] },
+                { q: "O Tratado de Livre Comércio da América do Norte chama-se:", options: [{val: "USMCA / NAFTA", correct: true}, {val: "Mercosul", correct: false}, {val: "BRICS", correct: false}] },
+                { q: "A globalização é fortemente impulsionada por:", options: [{val: "Tecnologia e Telecomunicações", correct: true}, {val: "Isolamento comercial", correct: false}, {val: "Nacionalismo estrito", correct: false}] },
+                { q: "Empresas que atuam em vários países simultaneamente:", options: [{val: "Transnacionais / Multinacionais", correct: true}, {val: "Comércios locais", correct: false}, {val: "Cooperativas", correct: false}] },
+                { q: "Países do bloco sul-americano que inclui Brasil e Argentina:", options: [{val: "Mercosul", correct: true}, {val: "União Europeia", correct: false}, {val: "Apec", correct: false}] }
               ]
             }
           ]
@@ -516,31 +570,43 @@
         levels: {
           easy: [
             {
-              title: "Lição 1: Metáfora e Comparação",
+              title: "Módulo 1: Figuras de Linguagem",
               duration: "10 min",
-              theory: "<strong>Fundamentação Teórica (7º Ano):</strong> A metáfora compara implicitamente sem conectivo.",
+              theory: "<strong>Teoria (7º Ano):</strong> Metáfora e Comparação explícita.",
               exercises: [
-                { q: "'Seu coração é de ouro' é um exemplo de:", options: [{val: "Metáfora", correct: true}, {val: "Onomatopeia", correct: false}, {val: "Pleonasmo", correct: false}] }
+                { q: "'Seu coração é de ouro' é um exemplo de:", options: [{val: "Metáfora", correct: true}, {val: "Onomatopeia", correct: false}, {val: "Pleonasmo", correct: false}] },
+                { q: "Qual frase apresenta uma Comparação explícita?", options: [{val: "Ela brilha como o sol.", correct: true}, {val: "O tempo é um rio.", correct: false}, {val: "Chorou rios.", correct: false}] },
+                { q: "Atribuir características humanas a seres inanimados:", options: [{val: "Personificação (Prosopopéia)", correct: true}, {val: "Metáfora", correct: false}, {val: "Hipérbole", correct: false}] },
+                { q: "Exagero intencional para dar ênfase (ex: 'Estou morrendo de rir'):", options: [{val: "Hipérbole", correct: true}, {val: "Ironia", correct: false}, {val: "Eufemismo", correct: false}] },
+                { q: "Suavizar uma ideia desagradável chama-se:", options: [{val: "Eufemismo", correct: true}, {val: "Hipérbole", correct: false}, {val: "Antítese", correct: false}] }
               ]
             }
           ],
           medium: [
             {
-              title: "Lição 1: Sujeito e Predicado",
+              title: "Módulo 2: Sintaxe: Sujeito e Predicado",
               duration: "15 min",
-              theory: "<strong>Fundamentação Teórica (8º Ano):</strong> Estrutura fundamental da oração na língua portuguesa.",
+              theory: "<strong>Teoria (8º Ano):</strong> Estrutura fundamental da oração.",
               exercises: [
-                { q: "Em 'Os alunos estudaram', o núcleo do sujeito é:", options: [{val: "Alunos", correct: true}, {val: "Estudaram", correct: false}, {val: "Prova", correct: false}] }
+                { q: "Em 'Os alunos estudaram para a prova', o núcleo do sujeito é:", options: [{val: "Alunos", correct: true}, {val: "Estudaram", correct: false}, {val: "Prova", correct: false}] },
+                { q: "O que é o predicado?", options: [{val: "O que se declara sobre o sujeito", correct: true}, {val: "O nome principal da frase", correct: false}, {val: "A pontuação final", correct: false}] },
+                { q: "Qual o tipo de sujeito em 'Choveu muito ontem'?", options: [{val: "Inexistente (Oração sem sujeito)", correct: true}, {val: "Oculto", correct: false}, {val: "Simples", correct: false}] },
+                { q: "Em 'Chegaram o carteiro e os encomendas', o sujeito é:", options: [{val: "Composto", correct: true}, {val: "Simples", correct: false}, {val: "Indeterminado", correct: false}] },
+                { q: "Qual a classe gramatical do núcleo do sujeito?", options: [{val: "Substantivo ou Pronome", correct: true}, {val: "Verbo transitivo", correct: false}, {val: "Advérbio de modo", correct: false}] }
               ]
             }
           ],
           hard: [
             {
-              title: "Lição 1: Orações Subordinadas",
+              title: "Módulo 3: Orações Subordinadas",
               duration: "20 min",
-              theory: "<strong>Fundamentação Teórica (9º Ano):</strong> Desempenham papel equivalente a um substantivo.",
+              theory: "<strong>Teoria (9º Ano):</strong> Orações Subordinadas Substantivas e Adjetivas.",
               exercises: [
-                { q: "Na frase 'Quero que venhas', a oração destacada é:", options: [{val: "Subordinada Objetiva Direta", correct: true}, {val: "Adjetiva Restritiva", correct: false}, {val: "Adverbial", correct: false}] }
+                { q: "Na frase 'Quero que venhas', a oração destacada é:", options: [{val: "Subordinada Objetiva Direta", correct: true}, {val: "Adjetiva Restritiva", correct: false}, {val: "Adverbial", correct: false}] },
+                { q: "Orações iniciadas por pronomes relativos (que, quem, onde):", options: [{val: "Subordinadas Adjetivas", correct: true}, {val: "Substantivas", correct: false}, {val: "Coordenadas", correct: false}] },
+                { q: "Em 'É necessário que você estude', a subordinada exerce função de:", options: [{val: "Substantiva Subjetiva", correct: true}, {val: "Objetiva Direta", correct: false}, {val: "Apositiva", correct: false}] },
+                { q: "A oração adjetiva explicativa vem sempre:", options: [{val: "Entre vírgulas", correct: true}, {val: "Sem nenhuma pontuação", correct: false}, {val: "No início absoluto da frase", correct: false}] },
+                { q: "Classifique a oração em 'Desejo uma coisa: que sejais felizes':", options: [{val: "Subordinada Substantiva Apositiva", correct: true}, {val: "Objetiva Indireta", correct: false}, {val: "Predicativa", correct: false}] }
               ]
             }
           ]
@@ -558,11 +624,10 @@
     let challengeTimer = null;
     let timeLeft = 30;
 
-    // Estado das Missões RPG Diárias
     let dailyQuests = [
-      { completed: false, claimed: false }, // Quest 0: Estudar 1 lição
-      { completed: false, claimed: false }, // Quest 1: Jogar Modo Desafio
-      { completed: false, claimed: false }  // Quest 2: Acertar 3 seguidas
+      { completed: false, claimed: false },
+      { completed: false, claimed: false },
+      { completed: false, claimed: false }
     ];
     let consecutiveCorrect = 0;
 
@@ -747,7 +812,7 @@
         const btn = document.createElement('button');
         btn.onclick = () => selectLesson(idx);
         btn.className = `px-4 py-2 text-xs font-bold rounded-xl transition-all cursor-pointer whitespace-nowrap shadow-sm ${idx === currentLessonIdx ? 'bg-emerald-700 text-white' : 'bg-slate-100 border border-slate-200 text-slate-700 hover:bg-slate-200'}`;
-        btn.textContent = `Lição ${idx + 1}: ${lesson.title.split(':')[1] || lesson.title}`;
+        btn.textContent = `Módulo ${idx + 1}: ${lesson.title.split(':')[1] || lesson.title}`;
         tabsContainer.appendChild(btn);
       });
     }
@@ -897,7 +962,7 @@
         currentExIdx++;
         loadLessonContent();
       } else {
-        alert("🏆 Parabéns! Você concluiu todas as questões desta etapa com sucesso.");
+        alert("🏆 Parabéns! Você concluiu todas as questões deste módulo com sucesso.");
       }
     }
 

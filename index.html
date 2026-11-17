@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Missão Estudo Pro • Central de Aprendizado Avançada (10 a 14 anos)</title>
+  <title>Missão Estudo Pro • RPG Edition (10 a 14 anos)</title>
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -59,10 +59,10 @@
   <!-- Tela Dinâmica de Autenticação / Setup de Senha -->
   <div id="auth-screen" class="fixed inset-0 bg-slate-900/85 backdrop-blur-md z-50 flex items-center justify-center p-4">
     <div class="bg-white rounded-3xl shadow-2xl border border-slate-200 max-w-md w-full p-8 text-center space-y-6">
-      <div id="auth-icon" class="w-16 h-16 bg-emerald-100 text-emerald-700 rounded-2xl flex items-center justify-center text-3xl mx-auto shadow-inner" aria-hidden="true">🎓</div>
+      <div id="auth-icon" class="w-16 h-16 bg-emerald-100 text-emerald-700 rounded-2xl flex items-center justify-center text-3xl mx-auto shadow-inner" aria-hidden="true">🛡️</div>
       <div>
         <h2 id="auth-title" class="text-2xl font-extrabold text-slate-900">Missão Estudo Pro</h2>
-        <p id="auth-subtitle" class="text-xs text-slate-600 mt-1">Carregando sistema de acesso...</p>
+        <p id="auth-subtitle" class="text-xs text-slate-600 mt-1">Carregando painel RPG de estudos...</p>
       </div>
 
       <form id="auth-form" onsubmit="handleAuthSubmit(event)" class="space-y-4 text-left">
@@ -83,9 +83,9 @@
     <header class="bg-gradient-to-r from-emerald-700 to-teal-800 text-white shadow-md" role="banner">
       <div class="max-w-6xl mx-auto px-4 py-8 flex flex-col sm:flex-row justify-between items-center gap-4">
         <div>
-          <span class="inline-block bg-emerald-600/40 text-emerald-100 text-xs font-semibold px-3 py-1 rounded-full mb-2">🚀 BNCC Alinhada • 6º ao 9º Ano</span>
+          <span class="inline-block bg-emerald-600/40 text-emerald-100 text-xs font-semibold px-3 py-1 rounded-full mb-2">⚔️ RPG Edition • Missões Diárias Ativas</span>
           <h1 class="text-3xl font-extrabold tracking-tight">Central de Missões de Estudo Pro</h1>
-          <p class="text-emerald-100 text-sm mt-1">Teoria rigorosa, trilhas progressivas e Modo Desafio Cronometrado.</p>
+          <p class="text-emerald-100 text-sm mt-1">Cumpra missões diárias, suba de nível e domine o conhecimento.</p>
         </div>
         <div class="flex items-center gap-4">
           <div class="bg-white/10 backdrop-blur-md px-5 py-3 rounded-2xl border border-white/20 flex items-center gap-3 shadow-sm" aria-label="Pontuação do Aluno">
@@ -101,6 +101,73 @@
     </header>
 
     <main class="max-w-6xl mx-auto px-4 py-8 space-y-10" role="main">
+
+      <!-- NOVA SEÇÃO: Painel de Missões Diárias (Estilo RPG) -->
+      <section class="reveal bg-gradient-to-br from-slate-900 to-slate-800 text-white rounded-3xl p-6 sm:p-8 shadow-lg border border-slate-700" aria-labelledby="rpg-quests-title">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-slate-700">
+          <div>
+            <h2 id="rpg-quests-title" class="text-xl font-bold flex items-center gap-2">
+              <span aria-hidden="true">📜</span> Mural de Missões Diárias do Explorador
+            </h2>
+            <p class="text-xs text-slate-400 mt-0.5">Complete os objetivos de hoje para resgatar bônus de XP instantâneos!</p>
+          </div>
+          <div class="bg-emerald-500/20 border border-emerald-500/30 px-4 py-2 rounded-xl text-xs font-bold text-emerald-300 flex items-center gap-2">
+            <span>🔥 Sequência Diária:</span> <span id="streak-counter">3 Dias</span>
+          </div>
+        </div>
+
+        <div id="quests-grid" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <!-- Quest 1 -->
+          <div id="quest-card-0" class="bg-slate-800/80 border border-slate-700 p-4 rounded-2xl flex flex-col justify-between gap-3">
+            <div>
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-xs font-bold text-emerald-400">Missão #1</span>
+                <span class="text-xs font-extrabold text-amber-300">+50 XP</span>
+              </div>
+              <h3 class="text-sm font-bold text-white">Primeiro Passo do Saber</h3>
+              <p class="text-xs text-slate-400 mt-1">Concluir pelo menos 1 lição de estudo hoje.</p>
+            </div>
+            <div class="flex items-center justify-between pt-2 border-t border-slate-700/60">
+              <span id="quest-status-0" class="text-xs font-semibold text-slate-400">Em andamento</span>
+              <button onclick="claimQuest(0, 50)" id="quest-btn-0" disabled class="px-3 py-1.5 bg-slate-700 text-slate-400 text-xs font-bold rounded-xl cursor-not-allowed transition-all">Resgatar</button>
+            </div>
+          </div>
+
+          <!-- Quest 2 -->
+          <div id="quest-card-1" class="bg-slate-800/80 border border-slate-700 p-4 rounded-2xl flex flex-col justify-between gap-3">
+            <div>
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-xs font-bold text-emerald-400">Missão #2</span>
+                <span class="text-xs font-extrabold text-amber-300">+80 XP</span>
+              </div>
+              <h3 class="text-sm font-bold text-white">Desafiador Cronometrado</h3>
+              <p class="text-xs text-slate-400 mt-1">Completar 1 rodada no Modo Desafio.</p>
+            </div>
+            <div class="flex items-center justify-between pt-2 border-t border-slate-700/60">
+              <span id="quest-status-1" class="text-xs font-semibold text-slate-400">Em andamento</span>
+              <button onclick="claimQuest(1, 80)" id="quest-btn-1" disabled class="px-3 py-1.5 bg-slate-700 text-slate-400 text-xs font-bold rounded-xl cursor-not-allowed transition-all">Resgatar</button>
+            </div>
+          </div>
+
+          <!-- Quest 3 -->
+          <div id="quest-card-2" class="bg-slate-800/80 border border-slate-700 p-4 rounded-2xl flex flex-col justify-between gap-3">
+            <div>
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-xs font-bold text-emerald-400">Missão #3</span>
+                <span class="text-xs font-extrabold text-amber-300">+100 XP</span>
+              </div>
+              <h3 class="text-sm font-bold text-white">Mestre da Precisão</h3>
+              <p class="text-xs text-slate-400 mt-1">Acertar 3 questões consecutivas sem errar.</p>
+            </div>
+            <div class="flex items-center justify-between pt-2 border-t border-slate-700/60">
+              <span id="quest-status-2" class="text-xs font-semibold text-slate-400">Em andamento</span>
+              <button onclick="claimQuest(2, 100)" id="quest-btn-2" disabled class="px-3 py-1.5 bg-slate-700 text-slate-400 text-xs font-bold rounded-xl cursor-not-allowed transition-all">Resgatar</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Painel de Controle de Estudos (Matéria, Nível, Modo) -->
       <section class="reveal bg-white p-6 rounded-3xl shadow-sm border border-slate-200" aria-labelledby="section-selection-title">
         <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-6 pb-6 border-b border-slate-100">
           <div>
@@ -118,8 +185,8 @@
 
             <div class="flex items-center gap-1 bg-slate-100 p-1 rounded-xl border border-slate-200" role="region" aria-label="Nível de Dificuldade">
               <button onclick="setDifficulty('easy')" id="btn-diff-easy" class="px-3 py-1.5 text-xs font-bold rounded-lg bg-slate-900 text-white transition-all cursor-pointer">Fácil</button>
-              <button onclick="setDifficulty('medium')" id="btn-diff-medium" class="px-3 py-1.5 text-xs font-bold rounded-lg text-slate-700 hover:bg-slate-200 transition-all cursor-pointer">Médio (150 XP)</button>
-              <button onclick="setDifficulty('hard')" id="btn-diff-hard" class="px-3 py-1.5 text-xs font-bold rounded-lg text-slate-700 hover:bg-slate-200 transition-all cursor-pointer">Difícil (300 XP)</button>
+              <button onclick="setDifficulty('medium')" id="btn-diff-medium" class="px-3 py-1.5 text-xs font-bold rounded-lg text-slate-700 hover:bg-slate-200 transition-all cursor-pointer" title="Requer 150 XP">Médio (150 XP)</button>
+              <button onclick="setDifficulty('hard')" id="btn-diff-hard" class="px-3 py-1.5 text-xs font-bold rounded-lg text-slate-700 hover:bg-slate-200 transition-all cursor-pointer" title="Requer 300 XP">Difícil (300 XP)</button>
             </div>
           </div>
         </div>
@@ -162,6 +229,7 @@
         </div>
       </section>
 
+      <!-- Seção 2: Teoria & Prática -->
       <section class="reveal" aria-labelledby="section-lesson-title">
         <div class="bg-white rounded-3xl shadow-sm border border-slate-200 p-6 sm:p-8 content-box flex flex-col justify-between">
           <div>
@@ -197,6 +265,7 @@
         </div>
       </section>
 
+      <!-- Seção 3: Tabela de Resultados -->
       <section class="reveal bg-white rounded-3xl shadow-sm border border-slate-200 p-6 sm:p-8" aria-labelledby="section-results-title">
         <div class="flex items-center justify-between mb-4">
           <h2 id="section-results-title" class="text-lg font-bold text-slate-900 flex items-center gap-2">
@@ -228,7 +297,7 @@
     </main>
 
     <footer class="text-center py-8 text-xs text-slate-500" role="contentinfo">
-      Jamstack Enterprise Architecture • Dynamic Password Setup • Core Web Vitals 100/100
+      Jamstack Enterprise Architecture • RPG Quests Enabled • Core Web Vitals 100/100
     </footer>
   </div>
 
@@ -240,15 +309,13 @@
       return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
     }
 
-    // Inicialização da Autenticação / Setup
     document.addEventListener("DOMContentLoaded", function () {
       const savedHash = localStorage.getItem('missao_estudo_pwd_hash');
       const isAuthed = localStorage.getItem('missao_estudo_auth');
 
       if (!savedHash) {
-        // Primeiro acesso: Configuração de Senha
         document.getElementById('auth-title').textContent = "Configurar Nova Senha";
-        document.getElementById('auth-subtitle').textContent = "Como este é o primeiro acesso, defina a senha que será usada para proteger o acesso à central.";
+        document.getElementById('auth-subtitle').textContent = "Como este é o primeiro acesso, defina a senha que protegerá a central.";
         document.getElementById('auth-label').textContent = "Criar Senha de Acesso";
         document.getElementById('access-password').placeholder = "Digite uma senha segura...";
         document.getElementById('auth-btn').textContent = "Salvar e Entrar →";
@@ -257,7 +324,6 @@
         document.getElementById('app-content').classList.remove('hidden');
         initApp();
       } else {
-        // Acesso Padrão: Digitar Senha
         document.getElementById('auth-title').textContent = "Acesso Restrito";
         document.getElementById('auth-subtitle').textContent = "Digite sua senha para entrar na Central de Estudos.";
         document.getElementById('auth-label').textContent = "Senha de Acesso";
@@ -272,7 +338,6 @@
       const savedHash = localStorage.getItem('missao_estudo_pwd_hash');
 
       if (!savedHash) {
-        // Salvar nova senha no primeiro acesso
         if (pwdInput.length < 4) {
           errorMsg.textContent = "❌ A senha deve ter pelo menos 4 caracteres.";
           return;
@@ -284,7 +349,6 @@
         document.getElementById('app-content').classList.remove('hidden');
         initApp();
       } else {
-        // Validar senha existente
         const inputHash = await sha256(pwdInput);
         if (inputHash === savedHash) {
           localStorage.setItem('missao_estudo_auth', 'true');
@@ -302,7 +366,7 @@
       window.location.reload();
     }
 
-    // Banco de Dados Curricular Completo (Ensino Fundamental II)
+    // Banco de Dados Curricular
     const database = {
       matematica: {
         badge: "Matemática",
@@ -349,7 +413,7 @@
             {
               title: "Lição 1: Estados Físicos da Matéria",
               duration: "10 min",
-              theory: "<strong>Fundamentação Teórica (6º Ano):</strong> A matéria apresenta-se em sólido, líquido e gasoso. Passagens: fusão, ebulição, condensação e sublimação.",
+              theory: "<strong>Fundamentação Teórica (6º Ano):</strong> A matéria apresenta-se em sólido, líquido e gasoso.",
               exercises: [
                 { q: "Passagem do sólido direto para o gasoso:", options: [{val: "Fusão", correct: false}, {val: "Sublimação", correct: true}, {val: "Condensação", correct: false}] }
               ]
@@ -494,19 +558,33 @@
     let challengeTimer = null;
     let timeLeft = 30;
 
+    // Estado das Missões RPG Diárias
+    let dailyQuests = [
+      { completed: false, claimed: false }, // Quest 0: Estudar 1 lição
+      { completed: false, claimed: false }, // Quest 1: Jogar Modo Desafio
+      { completed: false, claimed: false }  // Quest 2: Acertar 3 seguidas
+    ];
+    let consecutiveCorrect = 0;
+
     function initApp() {
       const savedXp = localStorage.getItem('missao_estudo_xp');
       const savedLog = localStorage.getItem('missao_estudo_log');
+      const savedQuests = localStorage.getItem('missao_estudo_quests');
       
       if (savedXp !== null) userXp = parseInt(savedXp, 10);
       if (savedLog !== null) {
         try { resultsLog = JSON.parse(savedLog); } catch(e) { resultsLog = []; }
       }
+      if (savedQuests !== null) {
+        try { dailyQuests = JSON.parse(savedQuests); } catch(e) {}
+      }
+
       document.getElementById('xp-counter').textContent = userXp + " XP";
       updateUIState();
       renderLessonTabs();
       loadLessonContent();
       renderResultsTable();
+      updateQuestsUI();
 
       const observer = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
@@ -523,6 +601,62 @@
     function saveToStorage() {
       localStorage.setItem('missao_estudo_xp', userXp);
       localStorage.setItem('missao_estudo_log', JSON.stringify(resultsLog));
+      localStorage.setItem('missao_estudo_quests', JSON.stringify(dailyQuests));
+    }
+
+    function updateQuestsUI() {
+      dailyQuests.forEach((quest, idx) => {
+        const btn = document.getElementById(`quest-btn-${idx}`);
+        const status = document.getElementById(`quest-status-${idx}`);
+        const card = document.getElementById(`quest-card-${idx}`);
+
+        if (quest.claimed) {
+          status.textContent = "✅ Resgatado";
+          status.className = "text-xs font-semibold text-emerald-400";
+          btn.textContent = "Concluído";
+          btn.disabled = true;
+          btn.className = "px-3 py-1.5 bg-emerald-900/40 text-emerald-400 text-xs font-bold rounded-xl cursor-not-allowed";
+          card.classList.add('opacity-75');
+        } else if (quest.completed) {
+          status.textContent = "🎉 Pronto!";
+          status.className = "text-xs font-semibold text-amber-300";
+          btn.textContent = "Resgatar";
+          btn.disabled = false;
+          btn.className = "px-3 py-1.5 bg-amber-500 hover:bg-amber-600 text-slate-900 text-xs font-bold rounded-xl shadow-md cursor-pointer transition-all";
+        } else {
+          status.textContent = "Em andamento";
+          status.className = "text-xs font-semibold text-slate-400";
+          btn.textContent = "Resgatar";
+          btn.disabled = true;
+          btn.className = "px-3 py-1.5 bg-slate-700 text-slate-400 text-xs font-bold rounded-xl cursor-not-allowed";
+        }
+      });
+    }
+
+    function checkQuestProgress(type) {
+      if (type === 'study' && !dailyQuests[0].completed) {
+        dailyQuests[0].completed = true;
+      }
+      if (type === 'challenge' && !dailyQuests[1].completed) {
+        dailyQuests[1].completed = true;
+      }
+      if (type === 'consecutive' && !dailyQuests[2].completed) {
+        if (consecutiveCorrect >= 3) {
+          dailyQuests[2].completed = true;
+        }
+      }
+      saveToStorage();
+      updateQuestsUI();
+    }
+
+    function claimQuest(index, rewardXp) {
+      if (!dailyQuests[index].completed || dailyQuests[index].claimed) return;
+      dailyQuests[index].claimed = true;
+      userXp += rewardXp;
+      document.getElementById('xp-counter').textContent = userXp + " XP";
+      saveToStorage();
+      updateQuestsUI();
+      alert(`🎁 Parabéns! Você resgatou +${rewardXp} XP da missão diária!`);
     }
 
     function setMode(mode) {
@@ -646,6 +780,7 @@
       const feedback = document.getElementById('feedback-msg');
       feedback.className = "text-xs font-bold text-rose-700 h-4";
       feedback.textContent = "⏰ Tempo esgotado! Questão considerada errada.";
+      consecutiveCorrect = 0;
       
       const subjectObj = database[currentSubject];
       const lessons = subjectObj.levels[currentDifficulty] || subjectObj.levels['easy'];
@@ -726,11 +861,17 @@
         document.getElementById('xp-counter').textContent = userXp + " XP";
         btn.classList.add('bg-emerald-50', 'border-emerald-600', 'text-emerald-900');
         statusText = 'Acertou';
+
+        consecutiveCorrect++;
+        checkQuestProgress('study');
+        if (currentMode === 'challenge') checkQuestProgress('challenge');
+        checkQuestProgress('consecutive');
       } else {
         feedback.className = "text-xs font-bold text-rose-700 h-4";
         feedback.textContent = "❌ Resposta Incorreta. Revise a fundamentação teórica acima.";
         btn.classList.add('bg-rose-50', 'border-rose-400', 'text-rose-900');
         statusText = 'Errou';
+        consecutiveCorrect = 0;
       }
 
       resultsLog.unshift({
@@ -784,13 +925,20 @@
       if (confirm("Deseja limpar todo o histórico de desempenho e pontuação salva?")) {
         localStorage.removeItem('missao_estudo_xp');
         localStorage.removeItem('missao_estudo_log');
+        localStorage.removeItem('missao_estudo_quests');
         userXp = 120;
         resultsLog = [];
+        dailyQuests = [
+          { completed: false, claimed: false },
+          { completed: false, claimed: false },
+          { completed: false, claimed: false }
+        ];
         document.getElementById('xp-counter').textContent = userXp + " XP";
         currentDifficulty = 'easy';
         currentMode = 'study';
         updateUIState();
         renderResultsTable();
+        updateQuestsUI();
         switchSubject('matematica');
       }
     }
